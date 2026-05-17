@@ -10,7 +10,7 @@ export const site = {
   strapline:
     'A campaign to make Britain’s supermarkets keep their promise — one price per essential, for every shopper, every time.',
   publisher: {
-    name: 'Lee Clouseau',
+    name: 'Lee',
     email: 'hello@fairfoodpricing.co.uk',
     affiliation: 'Published independently. Not affiliated with any political party.',
   },

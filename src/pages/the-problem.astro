@@ -16,86 +16,89 @@ import CTAButton from '@/components/CTAButton.astro';
     intro="Personalised and dynamic pricing of essential food is not science fiction. It is being installed across the major UK supermarket estates right now. Here is what it is, and why it is different from what came before."
   />
 
-  <article class="container-prose prose prose-neutral [&_a]:text-primary max-w-none py-10">
-    <h2>What “dynamic pricing” means in a supermarket</h2>
-    <p>
-      Dynamic pricing means the price displayed on the shelf or screen changes through the day,
-      based on demand, time, stock or rules set by the retailer. End-of-day yellow-sticker markdowns
-      are dynamic pricing in its useful form. The version that worries us is
-      <em>upward</em> dynamic pricing — raising the price of milk at 5pm because that’s when most shoppers
-      buy it, or raising the price of bread on a rainy day because fewer people drove to a competitor.
-    </p>
-
-    <h2>What “personalised pricing” means</h2>
-    <p>
-      Personalised pricing is more invasive. The price displayed depends on <em>who</em> is looking —
-      your loyalty card, your past purchasing patterns, sometimes your inferred willingness to pay. Online
-      retailers do this routinely. Bringing it into physical stores requires either an app at the shelf,
-      a face on a camera or a logged-in self-checkout. The infrastructure to do all three is being installed.
-    </p>
-
-    <Quote
-      attribution="British Retail Consortium"
-      source={{ name: 'BRC statement', url: 'https://brc.org.uk/news/' }}
-    >
-      Supermarkets do not use, and have no plan to use, dynamic or surge pricing in their stores.
-    </Quote>
-    <p>
-      We take that public commitment seriously. The Bill we back simply makes it binding. It costs
-      the BRC’s members nothing if they meant what they said.
-    </p>
-
-    <h2>Why essentials are different</h2>
-    <p>
-      For luxuries, dynamic pricing is mostly an annoyance. For essentials, it is regressive. The
-      households most exposed to food poverty are the ones least able to switch stores, wait for a
-      price to fall, or bulk-buy because they lack storage. Pricing innovation that individualises
-      the cost of a loaf of bread lands hardest on the people least able to absorb it. The
-      University of Bristol estimates the average “poverty premium” at around £490 per low-income
-      household per year — before personalisation enters the picture.
-    </p>
-
-    <h2>The technology being installed today</h2>
-    <ul>
-      <li>10.8 million electronic shelf labels across 497 Morrisons stores from early 2026.</li>
-      <li>Digital labels across all 2,400 Co-op stores by end-2026.</li>
-      <li>
-        Thousands of digital labels across Asda Express; a 2025 live facial recognition trial in
-        five Greater Manchester stores.
-      </li>
-      <li>Sainsbury’s “Future Stores” pilots of shelf-edge digital labels.</li>
-      <li>
-        Bank of England: 21% of UK firms already use market-responsive pricing tools, expected to
-        rise to 31% within a year.
-      </li>
-    </ul>
-
-    <Callout tone="warning" title="What’s changed in the law">
+  <div class="container-wide py-6 md:py-8">
+    <article class="prose prose-neutral [&_a]:text-primary max-w-4xl">
+      <h2>What “dynamic pricing” means in a supermarket</h2>
       <p>
-        The Data (Use and Access) Act 2025, in force from 19 June 2025, has relaxed the Article 22
-        prohibition on solely automated decisions affecting individuals. The protection consumers
-        might have relied on against fully automated pricing decisions is weaker than it was last
-        year.
+        Dynamic pricing means the price displayed on the shelf or screen changes through the day,
+        based on demand, time, stock or rules set by the retailer. End-of-day yellow-sticker
+        markdowns are dynamic pricing in its useful form. The version that worries us is
+        <em>upward</em> dynamic pricing — raising the price of milk at 5pm because that’s when most shoppers
+        buy it, or raising the price of bread on a rainy day because fewer people drove to a competitor.
       </p>
-    </Callout>
 
-    <h2>Why we need to draw the line now</h2>
-    <p>
-      The hardware is being installed. The legal protection has been relaxed. The Bank of England
-      forecasts the practice will become standard within a year. The British Retail Consortium has
-      promised it won’t happen. We have a narrow window to make that promise enforceable,
-      prospectively, before the practice becomes normal.
-    </p>
+      <h2>What “personalised pricing” means</h2>
+      <p>
+        Personalised pricing is more invasive. The price displayed depends on <em>who</em> is looking
+        — your loyalty card, your past purchases, sometimes a guess at what you can afford. Online retailers
+        already do this. Bringing it into physical stores needs one of three things: an app at the shelf,
+        a face on a camera, or a logged-in self-checkout. All three are being installed.
+      </p>
 
-    <p>
-      For the detailed evidence with primary sources, see the <a href="/the-evidence"
-        >evidence page</a
+      <Quote
+        attribution="British Retail Consortium"
+        source={{ name: 'BRC statement', url: 'https://brc.org.uk/news/' }}
       >
-      and the <a href="/downloads">full briefing</a>.
-    </p>
-  </article>
+        Supermarkets do not use, and have no plan to use, dynamic or surge pricing in their stores.
+      </Quote>
+      <p>
+        We are taking that promise at face value. The Bill we back turns it into a legal one. It
+        costs the BRC’s members nothing if they meant what they said.
+      </p>
 
-  <section class="container-prose pb-12">
+      <h2>Why essentials are different</h2>
+      <p>
+        For luxuries, dynamic pricing is mostly an annoyance. For essentials, it hits the people who
+        can least afford it. If you are short on money, you cannot drive to the next supermarket,
+        you cannot wait for the price to fall, and you cannot bulk-buy because you have nowhere to
+        put ten loaves of bread. Pricing tools that change the cost of a loaf based on who is buying
+        it land hardest on these households. The University of Bristol estimates that low-income
+        households already pay an average “poverty premium” of around £490 a year. Personalisation
+        makes it worse.
+      </p>
+
+      <h2>The technology being installed today</h2>
+      <ul>
+        <li>10.8 million electronic shelf labels across 497 Morrisons stores from early 2026.</li>
+        <li>Digital labels across all 2,400 Co-op stores by end-2026.</li>
+        <li>
+          Thousands of digital labels across Asda Express; a 2025 live facial recognition trial in
+          five Greater Manchester stores.
+        </li>
+        <li>Sainsbury’s “Future Stores” pilots of shelf-edge digital labels.</li>
+        <li>
+          Bank of England: 21% of UK firms already use market-responsive pricing tools, expected to
+          rise to 31% within a year.
+        </li>
+      </ul>
+
+      <Callout tone="warning" title="What’s changed in the law">
+        <p>
+          The Data (Use and Access) Act 2025, in force from 19 June 2025, has relaxed the Article 22
+          prohibition on solely automated decisions affecting individuals. The protection consumers
+          might have relied on against fully automated pricing decisions is weaker than it was last
+          year.
+        </p>
+      </Callout>
+
+      <h2>Why we need to draw the line now</h2>
+      <p>
+        The hardware is going in. The legal protection has just been weakened. The Bank of England
+        thinks personalised, market-responsive pricing will be standard within a year. The
+        supermarkets have already promised they will not do it. We have a short window to write that
+        promise into law before it stops being a promise.
+      </p>
+
+      <p>
+        For the detailed evidence with primary sources, see the <a href="/the-evidence"
+          >evidence page</a
+        >
+        and the <a href="/downloads">full briefing</a>.
+      </p>
+    </article>
+  </div>
+
+  <section class="container-wide pb-8">
     <div class="flex flex-wrap gap-3">
       <CTAButton href="/find-your-mp" variant="primary" size="lg">Write to your MP</CTAButton>
       <CTAButton href="/the-bill" variant="secondary" size="lg">Read the Bill</CTAButton>

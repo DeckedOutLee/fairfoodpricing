@@ -11,10 +11,10 @@ import MPFinder from '@/components/MPFinder';
   <PageHeader
     eyebrow="Step 1 of 2"
     title="Find your MP"
-    intro="Enter your postcode and we’ll find the right MP in two seconds. You can then send them a letter — physically or by email — in under a minute."
+    intro="Enter your postcode. We will find your MP in about two seconds. The next page lets you send them a letter, by email or by post, in under a minute."
   />
 
-  <div class="container-readable py-10">
+  <div class="container-wide py-6 md:py-8">
     <MPFinder client:load />
 
     <noscript>
@@ -39,22 +39,21 @@ import MPFinder from '@/components/MPFinder';
       </div>
     </noscript>
 
-    <section class="mt-12 max-w-prose">
+    <section class="mt-8">
       <h2 class="font-display text-h2 text-ink font-semibold">How this works</h2>
       <p class="text-ink/85 mt-3">
-        Your postcode is sent to <a
+        Your postcode goes to <a
           class="text-primary"
           href="https://postcodes.io"
           rel="noopener noreferrer"
           target="_blank">postcodes.io</a
-        >, a free non-profit service, only to look up your parliamentary constituency. That
-        constituency name is then sent to the official UK Parliament Members API to retrieve your
-        MP’s name and parliamentary email.
+        > — a free non-profit — just to find your constituency. The constituency name then goes to the
+        UK Parliament’s own members service to fetch your MP’s name and email.
       </p>
       <p class="text-ink/85 mt-3">
-        No data is stored on our side. We do not write your postcode to your browser’s storage. We
-        do not log it. See the <a class="text-primary" href="/privacy">privacy notice</a> for the full
-        data flow.
+        We keep nothing. Your postcode is not saved on this site, not saved in your browser, not
+        written to a log anywhere. See the <a class="text-primary" href="/privacy">privacy notice</a
+        > for the full data flow.
       </p>
     </section>
   </div>

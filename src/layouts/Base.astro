@@ -10,9 +10,11 @@ export interface BaseProps {
   ogImage?: string;
   noIndex?: boolean;
   jsonLd?: Record<string, unknown>;
+  /** Font preview — set to 'montserrat' to swap display + body fonts on this page only. */
+  fontDemo?: 'montserrat';
 }
 
-const { title, description, ogImage, noIndex = false, jsonLd } = Astro.props as BaseProps;
+const { title, description, ogImage, noIndex = false, jsonLd, fontDemo } = Astro.props as BaseProps;
 const fullTitle = title.includes(site.name) ? title : `${title} — ${site.name}`;
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 const ogImageUrl = ogImage
@@ -21,7 +23,7 @@ const ogImageUrl = ogImage
 ---
 
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-GB" data-font-demo={fontDemo}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />

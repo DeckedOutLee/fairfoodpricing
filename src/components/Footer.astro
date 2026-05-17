@@ -4,8 +4,8 @@ import Wordmark from './Wordmark.astro';
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-rule bg-paper-elevated mt-24 border-t">
-  <div class="container-wide grid gap-10 py-12 md:grid-cols-3">
+<footer class="border-rule bg-paper-elevated mt-8 border-t">
+  <div class="container-wide grid gap-8 py-8 md:grid-cols-3">
     <div>
       <Wordmark variant="inline" tone="ink" class="h-7 w-auto" />
       <p class="text-muted mt-4 max-w-prose text-sm">
@@ -34,7 +34,8 @@ const year = new Date().getFullYear();
         }
         <li>
           <a href="/privacy#accessibility" class="text-ink/85 hover:text-ink no-underline"
-            >Accessibility statement</a>
+            >Accessibility statement</a
+          >
         </li>
       </ul>
     </nav>

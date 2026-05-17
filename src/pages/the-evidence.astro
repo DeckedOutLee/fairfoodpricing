@@ -26,7 +26,7 @@ const references = (await getCollection('references')).sort((a, b) => {
     intro="Every figure here cites a primary source — government, regulator, or established think tank. Use the filter to narrow by topic."
   />
 
-  <div class="container-wide py-10">
+  <div class="container-wide py-6 md:py-8">
     <fieldset class="flex flex-wrap gap-2" aria-label="Filter statistics by topic">
       <legend class="sr-only">Filter statistics by topic</legend>
       <button
@@ -68,9 +68,9 @@ const references = (await getCollection('references')).sort((a, b) => {
   </div>
 
   <section class="border-rule bg-paper-elevated border-t">
-    <div class="container-readable py-12">
+    <div class="container-wide py-6 md:py-8">
       <h2 class="font-display text-h2 text-ink font-semibold">References</h2>
-      <p class="text-ink/85 mt-3 max-w-prose">
+      <p class="text-ink/85 mt-3">
         Primary sources behind the figures. Sorted by type — government, primary, industry, press,
         academic, secondary — and then alphabetically.
       </p>
@@ -102,7 +102,7 @@ const references = (await getCollection('references')).sort((a, b) => {
     </div>
   </section>
 
-  <section class="container-readable py-10">
+  <section class="container-wide py-6 md:py-8">
     <div class="flex flex-wrap gap-3">
       <CTAButton href="/find-your-mp" variant="primary" size="lg">Write to your MP</CTAButton>
       <CTAButton href="/downloads" variant="secondary" size="lg"

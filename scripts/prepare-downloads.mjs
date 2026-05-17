@@ -9,7 +9,15 @@
  * Usage: npm run prepare-downloads
  */
 import { execSync } from 'node:child_process';
-import { copyFileSync, mkdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
+import {
+  copyFileSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
@@ -73,26 +81,108 @@ if (pandocAvailable && !chromeBin) {
   console.warn('⚠ Chrome/Chromium not found — PDFs will not be generated via the chrome fallback.');
 }
 
+/**
+ * Build-time PDF CSS — uses Montserrat via Google Fonts.
+ *
+ * Privacy note: Google Fonts is fetched here by Chrome headless during build,
+ * NOT by site visitors at runtime. The resulting PDF embeds the rasterised
+ * font in the file itself. Visitors only download a static PDF — no third
+ * party request from their browser.
+ */
 const PDF_CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap');
+
   @page { size: A4; margin: 22mm 20mm; }
-  html, body { font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif; font-size: 11pt; color: #0f172a; line-height: 1.5; }
-  h1, h2, h3, h4 { font-family: 'Source Serif 4', Georgia, serif; color: #0f172a; }
+  html, body { font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 10.5pt; color: #0f172a; line-height: 1.5; letter-spacing: 0.005em; }
+  h1, h2, h3, h4 { font-family: 'Montserrat', system-ui, sans-serif; color: #0f172a; letter-spacing: -0.018em; font-weight: 700; }
   h1 { font-size: 22pt; border-bottom: 2pt solid #1e40af; padding-bottom: 4pt; }
-  h2 { font-size: 16pt; margin-top: 18pt; color: #1e40af; }
-  h3 { font-size: 13pt; }
+  h2 { font-size: 15pt; margin-top: 18pt; color: #1e40af; }
+  h3 { font-size: 12pt; }
   a { color: #1e40af; text-decoration: underline; }
-  p, li { text-align: justify; }
+  p, li { text-align: left; }
   blockquote { border-left: 3pt solid #b45309; margin: 1em 0; padding-left: 12pt; color: #475569; font-style: italic; }
-  code, pre { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 9.5pt; }
+  code, pre { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; font-size: 9pt; }
   hr { border: 0; border-top: 1pt solid #e5e7eb; margin: 1em 0; }
   table { border-collapse: collapse; width: 100%; font-size: 10pt; margin: 1em 0; }
   th, td { padding: 6pt 8pt; border-bottom: 0.5pt solid #e5e7eb; text-align: left; vertical-align: top; }
-  th { font-weight: 600; }
+  th { font-weight: 700; }
   header.cover { margin-bottom: 14mm; border-bottom: 1pt solid #e5e7eb; padding-bottom: 6mm; }
-  header.cover .brand { font-family: 'Source Serif 4', Georgia, serif; font-size: 11pt; color: #b45309; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
-  header.cover .title { font-family: 'Source Serif 4', Georgia, serif; font-size: 28pt; font-weight: 600; margin-top: 6pt; }
-  header.cover .date { font-size: 9pt; color: #64748b; margin-top: 6pt; font-family: ui-monospace, Menlo, monospace; }
+  header.cover .brand { font-family: 'Montserrat', sans-serif; font-size: 10pt; color: #b45309; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+  header.cover .title { font-family: 'Montserrat', sans-serif; font-size: 28pt; font-weight: 700; letter-spacing: -0.02em; margin-top: 6pt; }
+  header.cover .date { font-size: 9pt; color: #64748b; margin-top: 6pt; font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; }
 `;
+
+/**
+ * Build a one-off pandoc reference.docx that uses Montserrat for every paragraph
+ * style. Pandoc applies it via `--reference-doc=…` when emitting docx. Cached
+ * for the duration of the script run.
+ */
+let cachedReferenceDocx = null;
+function getMontserratReferenceDocx() {
+  if (cachedReferenceDocx) return cachedReferenceDocx;
+  if (!pandocAvailable) return null;
+
+  const buildDir = join(tmpdir(), `ffp-ref-${Date.now()}`);
+  mkdirSync(join(buildDir, 'unpacked'), { recursive: true });
+  const defaultRef = join(buildDir, 'default-reference.docx');
+
+  try {
+    execSync(`pandoc --print-default-data-file reference.docx > "${defaultRef}"`, {
+      shell: '/bin/bash',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    execSync(`unzip -qo "${defaultRef}" -d "${buildDir}/unpacked"`, { stdio: 'ignore' });
+
+    const stylesXmlPath = join(buildDir, 'unpacked/word/styles.xml');
+    if (exists(stylesXmlPath)) {
+      let xml = readFileSync(stylesXmlPath, 'utf8');
+      xml = xml
+        .replace(/(w:ascii=)"[^"]+"/g, '$1"Montserrat"')
+        .replace(/(w:hAnsi=)"[^"]+"/g, '$1"Montserrat"')
+        .replace(/(w:cs=)"[^"]+"/g, '$1"Montserrat"')
+        .replace(/(w:eastAsia=)"[^"]+"/g, '$1"Montserrat"')
+        .replace(/(w:asciiTheme=)"[^"]+"/g, '$1"minorHAnsi"')
+        .replace(/(w:hAnsiTheme=)"[^"]+"/g, '$1"minorHAnsi"')
+        .replace(/(w:csTheme=)"[^"]+"/g, '$1"minorBidi"');
+      writeFileSync(stylesXmlPath, xml);
+    }
+
+    const fontTablePath = join(buildDir, 'unpacked/word/fontTable.xml');
+    if (exists(fontTablePath)) {
+      let ft = readFileSync(fontTablePath, 'utf8');
+      if (!ft.includes('w:name="Montserrat"')) {
+        ft = ft.replace(
+          '</w:fonts>',
+          '<w:font w:name="Montserrat"><w:family w:val="auto"/><w:pitch w:val="variable"/></w:font></w:fonts>',
+        );
+        writeFileSync(fontTablePath, ft);
+      }
+    }
+
+    const refOut = join(tmpdir(), `ffp-montserrat-ref-${process.pid}.docx`);
+    execSync(`cd "${buildDir}/unpacked" && zip -qr "${refOut}" .`, { stdio: 'ignore' });
+    cachedReferenceDocx = refOut;
+    return refOut;
+  } catch (err) {
+    console.warn(`  ref  ✗ Montserrat reference.docx build failed: ${err.message}`);
+    return null;
+  } finally {
+    try {
+      rmSync(buildDir, { recursive: true, force: true });
+    } catch {
+      /* noop */
+    }
+  }
+}
+
+function renderDocxFromMd(mdPath, docxOut, title) {
+  const refDoc = getMontserratReferenceDocx();
+  const refArg = refDoc ? `--reference-doc="${refDoc}"` : '';
+  execSync(
+    `pandoc "${mdPath}" ${refArg} --metadata title="${title.replace(/"/g, '\\"')}" -o "${docxOut}"`,
+    { stdio: 'ignore' },
+  );
+}
 
 function renderPdfFromMd(mdPath, pdfOut, title) {
   // 1. pandoc → standalone HTML in a temp file
@@ -115,9 +205,10 @@ function renderPdfFromMd(mdPath, pdfOut, title) {
     }
   }
 
-  // 2. Chrome headless → PDF
+  // 2. Chrome headless → PDF. Generous virtual-time-budget so Google Fonts
+  // (used at build time only) has time to load and rasterise before snapshot.
   execSync(
-    `"${chromeBin}" --headless=new --disable-gpu --no-pdf-header-footer --print-to-pdf="${pdfOut}" --print-to-pdf-no-header --virtual-time-budget=3000 "file://${tmpHtml}" 2>/dev/null`,
+    `"${chromeBin}" --headless=new --disable-gpu --no-pdf-header-footer --print-to-pdf="${pdfOut}" --print-to-pdf-no-header --virtual-time-budget=10000 "file://${tmpHtml}" 2>/dev/null`,
     { stdio: 'ignore' },
   );
   try {
@@ -136,25 +227,43 @@ for (const { src, target } of docs) {
   const docxOut = join(outDir, `${target}.docx`);
   const pdfOut = join(outDir, `${target}.pdf`);
 
-  if (exists(docxSrc)) {
+  const titleMap = {
+    'evidence-briefing': 'Evidence Briefing',
+    'draft-bill': 'Draft Bill',
+    'letter-template': 'Letter to MP',
+    'one-pager': 'One-Page Cross-Party Summary',
+  };
+  const title = titleMap[target] ?? target;
+
+  // .docx — regenerate from markdown with Montserrat reference doc.
+  // Falls back to copy if pandoc isn't available.
+  if (pandocAvailable && exists(mdSrc)) {
+    try {
+      renderDocxFromMd(mdSrc, docxOut, title);
+      copied++;
+      console.log(`  docx → ${target}.docx  (Montserrat reference)`);
+    } catch (err) {
+      console.warn(`  docx ✗ ${target}.docx pandoc failed: ${err.message}`);
+      if (exists(docxSrc)) {
+        copyFileSync(docxSrc, docxOut);
+        copied++;
+        console.log(`  copy → ${target}.docx  (fallback from source)`);
+      }
+    }
+  } else if (exists(docxSrc)) {
     copyFileSync(docxSrc, docxOut);
     copied++;
     console.log(`  copy → ${target}.docx`);
   } else {
-    console.warn(`  miss → ${docxSrc}`);
+    console.warn(`  miss → ${target}.docx`);
   }
 
+  // .pdf — render via Chrome headless from pandoc HTML.
   if (pandocAvailable && chromeBin && exists(mdSrc)) {
-    const titleMap = {
-      'evidence-briefing': 'Evidence Briefing',
-      'draft-bill': 'Draft Bill',
-      'letter-template': 'Letter to MP',
-      'one-pager': 'One-Page Cross-Party Summary',
-    };
     try {
-      renderPdfFromMd(mdSrc, pdfOut, titleMap[target] ?? target);
+      renderPdfFromMd(mdSrc, pdfOut, title);
       generated++;
-      console.log(`  pdf  → ${target}.pdf  (engine: chrome-headless)`);
+      console.log(`  pdf  → ${target}.pdf  (Montserrat, chrome-headless)`);
     } catch (err) {
       console.warn(`  pdf  ✗ ${target}.pdf failed: ${err.message}`);
     }

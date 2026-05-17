@@ -1,135 +1,109 @@
 ---
 import Base from '@/layouts/Base.astro';
 import PageHeader from '@/components/PageHeader.astro';
-import EmailSignup from '@/components/EmailSignup.tsx';
+import Callout from '@/components/Callout.astro';
 import { site } from '@/lib/site';
 ---
 
 <Base
-  title="Privacy notice"
-  description="How Fair Food Pricing handles your data. No cookies on first visit. No third-party trackers. Letters generated client-side."
+  title="Privacy"
+  description="No cookies, no trackers, no signups. I do not collect or store anything about you."
 >
   <PageHeader
     eyebrow="Plain English"
-    title="Privacy notice"
-    intro="What we collect, what we do with it, and how to complain if you think we’ve got it wrong."
+    title="Privacy"
+    intro="The short version is at the top. The longer version is below it, in plain English."
   />
 
-  <article class="container-prose prose prose-neutral [&_a]:text-primary max-w-none py-10">
-    <p>Last updated: <time datetime="2026-05-17">17 May 2026</time>.</p>
+  <div class="container-wide py-6 md:py-8">
+    <div class="max-w-4xl">
+      <Callout tone="success" title="The short version">
+        <ul>
+          <li>No cookies — none, not even one.</li>
+          <li>No analytics, no tracking pixels, no ad networks.</li>
+          <li>No newsletter signup, no email list, no contact form.</li>
+          <li>I do not know who you are. I do not want to know who you are.</li>
+          <li>
+            When you use the MP lookup, your postcode is sent to a free non-profit service (<a
+              href="https://postcodes.io"
+              rel="noopener noreferrer"
+              target="_blank">postcodes.io</a
+            >) and to the UK Parliament’s own service. It is not saved here.
+          </li>
+          <li>Your letter is built in your browser. It never reaches me.</li>
+        </ul>
+      </Callout>
 
-    <h2>1. Who we are</h2>
-    <p>
-      This website is published by <strong>{site.publisher.name}</strong>, acting as the data
-      controller. Contact: <a href={`mailto:${site.publisher.email}`}>{site.publisher.email}</a>.
-      {site.publisher.affiliation}
-    </p>
+      <article class="prose prose-neutral [&_a]:text-primary mt-8 max-w-4xl">
+        <p>Last updated: <time datetime="2026-05-17">17 May 2026</time>.</p>
 
-    <h2>2. What we collect — and what we don’t</h2>
-    <p>This site is deliberately minimal. The full data inventory:</p>
-    <div class="overflow-x-auto">
-      <table class="w-full border-collapse text-sm">
-        <thead>
-          <tr class="border-rule border-b text-left">
-            <th class="py-2 pr-3 font-semibold">Data</th>
-            <th class="py-2 pr-3 font-semibold">Where it goes</th>
-            <th class="py-2 pr-3 font-semibold">How long</th>
-            <th class="py-2 font-semibold">Lawful basis</th>
-          </tr>
-        </thead>
-        <tbody class="align-top">
-          <tr class="border-rule border-b">
-            <td class="py-3 pr-3">Postcode (MP finder)</td>
-            <td class="py-3 pr-3"
-              >Sent to <a href="https://postcodes.io" rel="noopener noreferrer" target="_blank"
-                >api.postcodes.io</a
-              > for constituency lookup. Not stored on our side.</td
+        <h2>Who I am</h2>
+        <p>
+          This site is run by <strong>{site.publisher.name}</strong>, a UK voter. Not a company, not
+          a charity, not a CIC, not a political party. The contact address is
+          <a href={`mailto:${site.publisher.email}`}>{site.publisher.email}</a>.
+        </p>
+
+        <h2>What I collect</h2>
+        <p>Nothing personal. To be specific:</p>
+        <ul>
+          <li>
+            <strong>Postcode (only when you use the MP finder).</strong> Your postcode is sent from your
+            browser to
+            <a href="https://postcodes.io" rel="noopener noreferrer" target="_blank">postcodes.io</a
             >
-            <td class="py-3 pr-3">Not retained</td>
-            <td class="py-3">Legitimate interests — transparent constituency lookup</td>
-          </tr>
-          <tr class="border-rule border-b">
-            <td class="py-3 pr-3">Constituency name</td>
-            <td class="py-3 pr-3">Sent to the official UK Parliament Members API.</td>
-            <td class="py-3 pr-3">Not retained</td>
-            <td class="py-3">Legitimate interests — public-record API call</td>
-          </tr>
-          <tr class="border-rule border-b">
-            <td class="py-3 pr-3">Letter contents</td>
-            <td class="py-3 pr-3">Generated entirely in your browser. Never sent to our server.</td>
-            <td class="py-3 pr-3">Not retained</td>
-            <td class="py-3">N/A — no transfer to us</td>
-          </tr>
-          <tr class="border-rule border-b">
-            <td class="py-3 pr-3">IP address</td>
-            <td class="py-3 pr-3">Cloudflare CDN edge logs (abuse prevention only).</td>
-            <td class="py-3 pr-3">7 days</td>
-            <td class="py-3">Legitimate interests — security</td>
-          </tr>
-          <tr>
-            <td class="py-3 pr-3">Email address (if you opt in)</td>
-            <td class="py-3 pr-3">
-              Email-list signup is in development. Until the email service provider is configured,
-              the signup form does not send your address anywhere. If you submit it, nothing
-              happens.
-            </td>
-            <td class="py-3 pr-3">When live, until you unsubscribe</td>
-            <td class="py-3">Consent</td>
-          </tr>
-        </tbody>
-      </table>
+            (a free non-profit) to find your constituency, and the constituency name is then sent to the
+            UK Parliament Members service. Neither call goes through me. Nothing is stored on this site.
+          </li>
+          <li>
+            <strong>Letter contents.</strong> The letter is built in your browser using JavaScript. Your
+            name, your town, anything you write — none of it is ever sent to me.
+          </li>
+          <li>
+            <strong>IP address in edge logs.</strong> Like every site, mine is served from a CDN (Cloudflare).
+            Their edge logs hold IP addresses for up to 7 days for abuse prevention. I do not read those
+            logs and I cannot tie an IP to a person.
+          </li>
+        </ul>
+
+        <h2>What I do not do</h2>
+        <ul>
+          <li>No cookies. Not even one. Open the dev tools and check.</li>
+          <li>No Google Analytics, Plausible, Cabin or any other analytics product.</li>
+          <li>No Facebook pixel, no Twitter embeds, no LinkedIn Insight tag, no TikTok.</li>
+          <li>No Google Fonts at runtime. The fonts are self-hosted on this domain.</li>
+          <li>No email list, no signup form, no newsletter.</li>
+        </ul>
+
+        <h2>Your rights</h2>
+        <p>
+          UK GDPR gives you rights of access, correction, deletion, and complaint. Because there is
+          nothing held on you here, most of those rights are met by default. If you want to check,
+          email <a href={`mailto:${site.publisher.email}`}>{site.publisher.email}</a>.
+        </p>
+
+        <h2>How to complain</h2>
+        <p>
+          You can complain to the UK Information Commissioner’s Office at any time —
+          <a href="https://ico.org.uk/make-a-complaint/" rel="noopener noreferrer" target="_blank"
+            >ico.org.uk/make-a-complaint</a
+          >.
+        </p>
+
+        <h2 id="accessibility">Accessibility</h2>
+        <p>
+          The site aims to meet WCAG 2.2 AA. If you hit a barrier — a contrast issue, a missing
+          label, anything that gets in your way — email
+          <a href={`mailto:${site.publisher.email}`}>{site.publisher.email}</a>
+          and I will fix it. Based on the AbilityNet model accessibility statement.
+        </p>
+
+        <h2>Updates to this notice</h2>
+        <p>
+          If anything material changes — for example, if I ever did start collecting emails — I will
+          say so plainly at the top of this page, with a new “last updated” date.
+        </p>
+      </article>
     </div>
-
-    <h2>3. No cookies, no third-party trackers</h2>
-    <p>
-      This site sets no cookies on first visit. No Google Analytics. No Facebook pixel. No Twitter
-      embeds. Web fonts are self-hosted — they are not loaded from Google or anywhere else. The only
-      outbound calls are the two government / non-profit APIs listed above, and they only fire when
-      you actively use the MP lookup.
-    </p>
-
-    <h2>4. Your rights</h2>
-    <p>
-      Under the UK GDPR you have rights of access, rectification, erasure, restriction, objection
-      and portability. Because we hold almost no personal data, most of these are trivially
-      satisfied — but if you have questions or a concern, email
-      <a href={`mailto:${site.publisher.email}`}>{site.publisher.email}</a>.
-    </p>
-
-    <h2>5. Right to complain</h2>
-    <p>
-      You have a right to complain to the UK Information Commissioner’s Office at any time —
-      <a href="https://ico.org.uk/make-a-complaint/" rel="noopener noreferrer" target="_blank"
-        >ico.org.uk/make-a-complaint</a
-      >.
-    </p>
-
-    <h2 id="accessibility">6. Accessibility statement</h2>
-    <p>
-      This site aims to meet WCAG 2.2 AA. If you encounter a barrier — a contrast issue, a missing
-      label, anything that gets in your way — email <a href={`mailto:${site.publisher.email}`}
-        >{site.publisher.email}</a
-      >
-      and we’ll fix it. Based on the AbilityNet model accessibility statement.
-    </p>
-
-    <h2>7. Updates to this notice</h2>
-    <p>
-      We will update this notice as the site changes. Material changes (such as adding the
-      email-list provider) will be noted at the top of this page with a new “last updated” date.
-    </p>
-  </article>
-
-  <section class="container-prose border-rule border-t py-10">
-    <h2 class="font-display text-h2 text-ink font-semibold">Stay in the loop</h2>
-    <p class="text-ink/85 mt-3">
-      If you want occasional, low-volume updates on the Bill’s progress, you can sign up below. The
-      form is GDPR-compliant: explicit consent, no pre-ticked boxes, no marketing list sharing.
-      Submission is stubbed today — the email service provider is being chosen and the form will be
-      wired once it’s in place.
-    </p>
-    <div class="mt-6">
-      <EmailSignup client:visible />
-    </div>
-  </section>
+  </div>
 </Base>

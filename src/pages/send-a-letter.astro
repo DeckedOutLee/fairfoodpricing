@@ -11,10 +11,10 @@ import LetterGenerator from '@/components/LetterGenerator';
   <PageHeader
     eyebrow="Step 2 of 2"
     title="Send your letter"
-    intro="A pre-written, evidenced letter — with space for your own words. Edit it, preview it, then send by email or print it to post."
+    intro="A pre-written, evidenced letter with space for your own words. Edit it, read it back, then send it by email or print it to post."
   />
 
-  <div class="container-wide py-10">
+  <div class="container-wide py-6 md:py-8">
     <LetterGenerator client:load />
 
     <noscript>
@@ -30,16 +30,16 @@ import LetterGenerator from '@/components/LetterGenerator';
       </div>
     </noscript>
 
-    <section class="mt-12 max-w-prose">
+    <section class="mt-8">
       <h2 class="font-display text-h2 text-ink font-semibold">What we do with your details</h2>
       <p class="text-ink/85 mt-3">
-        Nothing — beyond filling in the letter on this page. The letter is built in your browser.
-        Your name, town and any personal note never reach our server.
+        Nothing. The letter is put together in your browser. Your name, your town, and anything you
+        add yourself never reach our server.
       </p>
       <p class="text-ink/85 mt-3">
-        When you choose “Send by email”, your default mail client opens with the letter pre-filled.
-        When you choose “Print or save as PDF”, a printable page opens — use your browser’s print
-        dialog to save it as a PDF or print it on paper.
+        “Send by email” opens your usual email app with the letter ready to send. “Print or save as
+        PDF” opens a printable version. Your browser’s print dialog will save it as a PDF or send it
+        to a printer.
       </p>
     </section>
   </div>

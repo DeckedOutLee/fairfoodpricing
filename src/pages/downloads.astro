@@ -45,7 +45,7 @@ const downloads = [
     intro="Everything is available in Word and PDF. All content is licensed under Creative Commons CC BY 4.0 — reuse it freely, with attribution."
   />
 
-  <div class="container-readable grid gap-6 py-10">
+  <div class="container-wide grid gap-6 py-6 md:py-8">
     {
       downloads.map((d) => (
         <article class="border-rule bg-paper-elevated rounded-2xl border p-6">
@@ -53,7 +53,7 @@ const downloads = [
             <h2 class="font-display text-h2 text-ink font-semibold">{d.title}</h2>
             <p class="text-muted font-mono text-xs tracking-wider uppercase">{d.meta}</p>
           </div>
-          <p class="text-ink/85 mt-3 max-w-prose">{d.description}</p>
+          <p class="text-ink/85 mt-3">{d.description}</p>
           <div class="mt-5 flex flex-wrap gap-3">
             <CTAButton href={d.files.docx} download size="md" variant="secondary">
               Word .docx
@@ -67,7 +67,7 @@ const downloads = [
     }
   </div>
 
-  <section class="container-readable py-8">
+  <section class="container-wide py-8">
     <p class="text-muted text-sm">
       File integrity: all downloads are generated from the source markdown in this repo and
       re-produced at every release. If a file fails to download, refresh and try again — or
