@@ -1,5 +1,7 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { buildLetter, buildMailto, MAILTO_BODY_LIMIT } from '@/lib/letterTemplate';
+import { Document, Packer, Paragraph, TextRun } from 'docx';
+import jsPDF from 'jspdf';
 
 interface MPFromQuery {
   id?: string;
@@ -41,6 +43,7 @@ export default function LetterGenerator() {
   const [mpAddress, setMpAddress] = useState('');
   const [mpEmail, setMpEmail] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
 
   useEffect(() => {
     const fromQuery = readQuery();
@@ -67,49 +70,128 @@ export default function LetterGenerator() {
     return buildMailto(mpEmail.trim(), letter);
   }, [letter, mpEmail]);
 
-  function downloadAsText() {
-    if (!letter || !agreed) return;
-    const blob = new Blob([letter.body], { type: 'text/plain;charset=utf-8' });
+  function triggerDownload(blob: Blob, filename: string) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = letter.filename;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
 
+  async function copyToClipboard() {
+    if (!letter || !agreed) return;
+    try {
+      await navigator.clipboard.writeText(letter.body);
+      setCopyStatus('copied');
+    } catch {
+      // Fallback for older browsers and non-secure contexts.
+      const textarea = document.createElement('textarea');
+      textarea.value = letter.body;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        setCopyStatus('copied');
+      } catch {
+        setCopyStatus('failed');
+      }
+      document.body.removeChild(textarea);
+    }
+    setTimeout(() => setCopyStatus('idle'), 2500);
+  }
+
+  async function downloadAsDocx() {
+    if (!letter || !agreed) return;
+    const paragraphs = letter.body.split('\n').map(
+      (line) =>
+        new Paragraph({
+          children: [new TextRun({ text: line, font: 'Montserrat' })],
+          spacing: { after: line === '' ? 120 : 60, line: 320 },
+        }),
+    );
+    const doc = new Document({
+      creator: 'Fair Food Pricing — fairfoodpricing.co.uk',
+      title: `Letter to ${mpName}`,
+      description: 'Constituent letter on AI-driven dynamic pricing of essential food.',
+      styles: {
+        default: {
+          document: {
+            run: { font: 'Montserrat', size: 22 }, // 11pt = 22 half-points
+            paragraph: { spacing: { line: 320 } }, // ~1.4 line height
+          },
+        },
+      },
+      sections: [
+        {
+          properties: {
+            page: {
+              margin: { top: 1440, right: 1276, bottom: 1440, left: 1276 }, // ~25mm/22mm
+            },
+          },
+          children: paragraphs,
+        },
+      ],
+    });
+    const blob = await Packer.toBlob(doc);
+    triggerDownload(blob, letter.filename.replace(/\.txt$/, '.docx'));
+  }
+
   function downloadAsPdf() {
     if (!letter || !agreed) return;
-    const printable = window.open('', '_blank', 'noopener,noreferrer');
-    if (!printable) {
-      // Popup blocked — fall back to a text download.
-      downloadAsText();
-      return;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const marginLeft = 22;
+    const marginRight = 22;
+    const marginTop = 25;
+    const marginBottom = 22;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const textWidth = pageWidth - marginLeft - marginRight;
+    const fontSizePt = 11;
+    const lineHeightMm = (fontSizePt * 1.4) / 2.83465; // 1pt = 0.3528mm
+
+    doc.setProperties({
+      title: `Letter to ${mpName}`,
+      subject: 'Fair pricing of essential food in UK supermarkets',
+      author: visitorName,
+      creator: 'fairfoodpricing.co.uk',
+    });
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(fontSizePt);
+    doc.setTextColor(15, 23, 42);
+
+    const wrapped = doc.splitTextToSize(letter.body, textWidth);
+    let y = marginTop;
+    for (const line of wrapped) {
+      if (y > pageHeight - marginBottom) {
+        doc.addPage();
+        y = marginTop;
+      }
+      doc.text(line, marginLeft, y);
+      y += lineHeightMm;
     }
-    const escaped = letter.body.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    printable.document.write(`<!doctype html>
-<html lang="en-GB">
-  <head>
-    <meta charset="utf-8" />
-    <title>${letter.filename}</title>
-    <style>
-      @page { size: A4; margin: 25mm 22mm; }
-      html, body { background: #fff; color: #000; font-family: Georgia, 'Times New Roman', serif; font-size: 11pt; line-height: 1.4; }
-      pre { white-space: pre-wrap; word-wrap: break-word; font-family: Georgia, 'Times New Roman', serif; }
-      .header { font-size: 9pt; color: #555; margin-bottom: 10mm; }
-      @media screen { body { max-width: 18cm; margin: 2rem auto; padding: 0 1rem; } }
-      @media print { .no-print { display: none !important; } }
-    </style>
-  </head>
-  <body>
-    <p class="header no-print">Print this page (Ctrl/Cmd-P) and choose “Save as PDF” to keep a copy.</p>
-    <pre>${escaped}</pre>
-    ${'<script>setTimeout(() => window.print(), 250);</script>'}
-  </body>
-</html>`);
-    printable.document.close();
+
+    // Small footer note on the last page
+    const footY = pageHeight - 10;
+    doc.setFontSize(8);
+    doc.setTextColor(120, 120, 120);
+    doc.text(
+      'Generated at fairfoodpricing.co.uk · ' +
+        new Date().toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+        }),
+      marginLeft,
+      footY,
+    );
+
+    doc.save(letter.filename.replace(/\.txt$/, '.pdf'));
   }
 
   const noQueryMp = !mpFromQuery.name;
@@ -289,7 +371,10 @@ export default function LetterGenerator() {
             <span>I have read the letter and I agree it should be sent in my name.</span>
           </label>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          <p className="text-muted mt-5 text-xs font-semibold tracking-wider uppercase">
+            Choose how to send
+          </p>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <a
               href={mailto?.href ?? '#'}
               aria-disabled={!showActions || !mailto}
@@ -297,44 +382,78 @@ export default function LetterGenerator() {
               onClick={(e) => {
                 if (!showActions || !mailto) e.preventDefault();
               }}
-              className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 font-semibold no-underline transition-colors ${
+              className={`inline-flex flex-col items-start justify-center gap-1 rounded-2xl px-5 py-3 font-semibold no-underline transition-colors ${
                 showActions && mailto
                   ? 'bg-primary text-paper hover:bg-primary-hover'
                   : 'bg-rule/40 text-muted cursor-not-allowed'
               }`}
             >
-              Send by email
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 16 16"
-                width="13"
-                height="13"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M3 8h10M9 4l4 4-4 4" />
-              </svg>
+              <span className="text-base">Send by email →</span>
+              <span className="text-xs font-normal opacity-90">
+                Opens your email app with the letter pre-filled
+              </span>
             </a>
+            <button
+              type="button"
+              onClick={copyToClipboard}
+              disabled={!showActions}
+              className={`inline-flex flex-col items-start justify-center gap-1 rounded-2xl px-5 py-3 font-semibold transition-colors ${
+                showActions
+                  ? copyStatus === 'copied'
+                    ? 'border-success bg-success/[0.08] text-ink border'
+                    : 'border-ink/20 text-ink hover:border-ink/40 hover:bg-paper border'
+                  : 'bg-rule/40 text-muted cursor-not-allowed border border-transparent'
+              }`}
+            >
+              <span className="text-base">
+                {copyStatus === 'copied'
+                  ? '✓ Copied to clipboard'
+                  : copyStatus === 'failed'
+                    ? 'Copy failed — try again'
+                    : 'Copy the full text'}
+              </span>
+              <span className="text-xs font-normal opacity-80">
+                Paste into Gmail, Outlook, ProtonMail, anywhere
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={downloadAsDocx}
+              disabled={!showActions}
+              className={`inline-flex flex-col items-start justify-center gap-1 rounded-2xl px-5 py-3 font-semibold transition-colors ${
+                showActions
+                  ? 'border-ink/20 text-ink hover:border-ink/40 hover:bg-paper border'
+                  : 'bg-rule/40 text-muted cursor-not-allowed border border-transparent'
+              }`}
+            >
+              <span className="text-base">Download as Word (.docx) ↓</span>
+              <span className="text-xs font-normal opacity-80">
+                Editable. Print and post, or attach to an email.
+              </span>
+            </button>
             <button
               type="button"
               onClick={downloadAsPdf}
               disabled={!showActions}
-              className={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 font-semibold transition-colors ${
+              className={`inline-flex flex-col items-start justify-center gap-1 rounded-2xl px-5 py-3 font-semibold transition-colors ${
                 showActions
                   ? 'border-ink/20 text-ink hover:border-ink/40 hover:bg-paper border'
-                  : 'bg-rule/40 text-muted cursor-not-allowed'
+                  : 'bg-rule/40 text-muted cursor-not-allowed border border-transparent'
               }`}
             >
-              Print or save as PDF
+              <span className="text-base">Download as PDF ↓</span>
+              <span className="text-xs font-normal opacity-80">
+                Ready to print and post, or attach to an email.
+              </span>
             </button>
           </div>
 
           {mailto?.truncated && (
             <p className="text-warning mt-3 text-xs">
-              Your mail client may truncate long emails — we’ll cap at{' '}
-              {MAILTO_BODY_LIMIT.toLocaleString()} characters. If yours does, use “Print or save as
-              PDF” and attach the full text.
+              Some email apps (Apple Mail in particular) truncate long emails. If yours does, use
+              <strong> Copy</strong> and paste into your inbox, or send the
+              <strong> Word</strong> / <strong>PDF</strong> as an attachment instead. The cap is{' '}
+              {MAILTO_BODY_LIMIT.toLocaleString()} characters.
             </p>
           )}
 
