@@ -1,0 +1,199 @@
+@import 'tailwindcss';
+
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/inter/wght-italic.css';
+@import '@fontsource-variable/source-serif-4/wght.css';
+@import '@fontsource-variable/source-serif-4/wght-italic.css';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+  /* Colour tokens — calm civic palette */
+  --color-ink: #0f172a;
+  --color-paper: #fafaf7;
+  --color-rule: #e5e7eb;
+  --color-primary: #1e40af;
+  --color-primary-hover: #1d3a9c;
+  --color-accent: #b45309;
+  --color-warning: #991b1b;
+  --color-success: #166534;
+  --color-muted: #64748b;
+  --color-muted-strong: #475569;
+  --color-paper-elevated: #ffffff;
+  --color-ink-inverse: #fafaf7;
+  /* Accent that contrasts well on the dark-ink band (≥4.5:1 on #0f172a). */
+  --color-accent-on-dark: #f59e0b;
+
+  /* Fluid type scale */
+  --text-display: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: clamp(2rem, 3vw + 1rem, 3rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: clamp(1.5rem, 2vw + 0.75rem, 2.25rem);
+  --text-h2--line-height: 1.2;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h3: clamp(1.25rem, 1vw + 0.75rem, 1.5rem);
+  --text-h3--line-height: 1.3;
+  --text-stat: clamp(2.5rem, 4vw + 0.5rem, 3.75rem);
+  --text-stat--line-height: 1;
+  --text-stat--letter-spacing: -0.02em;
+
+  /* Type families */
+  --font-display: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter Variable', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Layout tokens */
+  --spacing: 0.25rem;
+  --container-narrow: 38rem;
+  --container-prose: 44rem;
+  --container-readable: 56rem;
+  --container-wide: 72rem;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-quick: 150ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #f1f5f9;
+    --color-paper: #0b1220;
+    --color-rule: #1e293b;
+    --color-primary: #93c5fd;
+    --color-primary-hover: #bfdbfe;
+    --color-accent: #fbbf24;
+    --color-warning: #fca5a5;
+    --color-success: #86efac;
+    --color-muted: #94a3b8;
+    --color-muted-strong: #cbd5e1;
+    --color-paper-elevated: #111a2e;
+    --color-ink-inverse: #0b1220;
+  }
+}
+
+@layer base {
+  :where(html) {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    color-scheme: light dark;
+    font-family: var(--font-body);
+    font-feature-settings: 'cv11', 'ss03', 'kern';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    text-size-adjust: 100%;
+  }
+
+  :where(body) {
+    min-height: 100svh;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  :where(p, li) {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--color-primary);
+    text-decoration-line: underline;
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 0.08em;
+  }
+  a:hover {
+    color: var(--color-primary-hover);
+  }
+  /* Tailwind's `.no-underline` still wins because it's a class. */
+
+  :where(*:focus-visible) {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--color-primary) 25%, transparent);
+  }
+
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-weight: 600;
+    text-decoration: none;
+    transform: translateY(-120%);
+    transition: transform var(--duration-quick) var(--ease-out-soft);
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  /* Honour reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Print */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    a[href]::after {
+      content: ' (' attr(href) ')';
+      font-size: 0.85em;
+      color: #555;
+    }
+    body {
+      background: white;
+      color: black;
+    }
+  }
+}
+
+@utility container-prose {
+  max-width: var(--container-prose);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@utility container-readable {
+  max-width: var(--container-readable);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@utility container-wide {
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@utility bg-ruling-lines {
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(100% - 1px),
+    var(--color-rule) 100%
+  );
+  background-size: 100% 2.25rem;
+}

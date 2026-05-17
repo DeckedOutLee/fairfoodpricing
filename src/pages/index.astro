@@ -1,0 +1,266 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/Hero.astro';
+import StatCard from '@/components/StatCard.astro';
+import CTAButton from '@/components/CTAButton.astro';
+import { site } from '@/lib/site';
+
+const allStats = await getCollection('statistics');
+const featuredStats = allStats
+  .filter((s) => s.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const retailers = [
+  {
+    name: 'Morrisons',
+    summary:
+      'Installing 10.8 million electronic shelf labels across all 497 stores from early 2026.',
+    note: 'Press release · October 2025',
+  },
+  {
+    name: 'Co-op',
+    summary: 'Digital labels across all 2,400 stores by end-2026.',
+    note: 'Statement · May 2025',
+  },
+  {
+    name: 'Asda',
+    summary:
+      'Live facial recognition trial in five Greater Manchester stores; thousands of digital labels rolled out across Express.',
+    note: 'Trial · March 2025',
+  },
+  {
+    name: 'Sainsbury’s',
+    summary: 'Trialling digital shelf-edge labels at “Future Stores”.',
+    note: 'In-store · 2025',
+  },
+  {
+    name: 'Southern Co-op',
+    summary:
+      'Found by the ICO in 2023 to have breached UK data protection law with live facial recognition.',
+    note: 'Regulatory decision · March 2023',
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NGO',
+  name: site.name,
+  url: site.url,
+  description: site.tagline,
+  areaServed: 'United Kingdom',
+  email: site.publisher.email,
+  founder: { '@type': 'Person', name: site.publisher.name },
+  foundingDate: site.launched,
+};
+---
+
+<Base
+  title="Stop AI-driven dynamic pricing of essential UK food"
+  description="Across the UK, supermarkets are installing the technology to charge each shopper a different price for the same essential food. We have one window to legislate before this becomes normal."
+  jsonLd={jsonLd}
+>
+  <Hero
+    headline="Soon, the price of your loaf of bread could change based on who you are."
+    subhead="Across the UK, supermarkets are installing the technology to charge each shopper a different price for the same essential food — in real time, based on your data. Right now, 6.3 million UK adults are food insecure. The law hasn’t caught up. We can fix that."
+    primary={{ href: '/find-your-mp', label: 'Write to your MP' }}
+    secondary={{ href: '/the-evidence', label: 'See the evidence' }}
+  />
+
+  <!-- Section 2 — The numbers -->
+  <section aria-labelledby="numbers-heading" class="border-rule bg-paper border-t">
+    <div class="container-wide py-16 md:py-20">
+      <div class="max-w-readable">
+        <p class="text-accent font-mono text-xs font-semibold tracking-[0.18em] uppercase">
+          The challenges
+        </p>
+        <h2 id="numbers-heading" class="text-h1 font-display text-ink mt-3 font-semibold">
+          The figures the supermarkets, the Bank of England and the regulators have already
+          published.
+        </h2>
+        <p class="text-ink/80 mt-4 max-w-prose text-lg">
+          We are not asking you to take our word for anything. Every statistic on this site cites a
+          primary source — almost all of them government, regulator or established think tank.
+        </p>
+      </div>
+
+      <ul role="list" class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          featuredStats.map((stat) => (
+            <li class="contents">
+              <StatCard
+                figure={stat.data.figure}
+                label={stat.data.label}
+                context={stat.data.context}
+                source={stat.data.source}
+                isHarm={stat.data.isHarm}
+              />
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="text-muted mt-8 max-w-prose text-sm">
+        Full source list with citations on the
+        <a href="/the-evidence" class="text-primary">evidence page</a>. For research and journalism
+        use, the entire briefing is
+        <a href="/downloads" class="text-primary">downloadable as a PDF or Word document</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 3 — What stores are doing -->
+  <section aria-labelledby="stores-heading" class="border-rule bg-paper-elevated border-t">
+    <div class="container-wide py-16 md:py-20">
+      <div class="max-w-readable">
+        <p class="text-accent font-mono text-xs font-semibold tracking-[0.18em] uppercase">
+          What stores are doing
+        </p>
+        <h2 id="stores-heading" class="text-h1 font-display text-ink mt-3 font-semibold">
+          The infrastructure is being installed now.
+        </h2>
+        <p class="text-ink/80 mt-4 max-w-prose text-lg">
+          None of these supermarkets has admitted to surge-pricing staples. The hardware to do it is
+          being fitted across their estates this year.
+        </p>
+      </div>
+
+      <ul role="list" class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {
+          retailers.map((r) => (
+            <li class="contents">
+              <article class="border-rule bg-paper flex h-full flex-col rounded-2xl border p-6">
+                <h3 class="font-display text-h3 text-ink font-semibold">{r.name}</h3>
+                <p class="text-ink/85 mt-2 leading-snug">{r.summary}</p>
+                <p class="text-muted mt-auto pt-4 font-mono text-xs tracking-wide uppercase">
+                  {r.note}
+                </p>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="text-muted mt-6 text-sm">
+        Read the full retailer-by-retailer rundown, with primary sources, on the
+        <a href="/what-stores-are-doing" class="text-primary">What stores are doing</a> page.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 4 — We need to stop this -->
+  <section aria-labelledby="action-heading" class="bg-ink text-paper">
+    <div class="container-wide py-16 md:py-24">
+      <p
+        class="font-mono text-xs font-semibold tracking-[0.18em] text-[var(--color-accent-on-dark)] uppercase"
+      >
+        The action
+      </p>
+      <h2
+        id="action-heading"
+        class="font-display text-h1 text-paper mt-3 max-w-[22ch] font-semibold"
+      >
+        We have one window to legislate before this becomes normal.
+      </h2>
+
+      <ol role="list" class="max-w-readable mt-10 grid gap-6 md:max-w-none md:grid-cols-3">
+        <li class="border-paper/30 border-t pt-4">
+          <p class="text-paper/60 font-mono text-xs tracking-wider uppercase">01</p>
+          <p class="text-paper/95 mt-2 leading-snug">
+            The British Retail Consortium has publicly said supermarkets will not surge-price. A
+            statutory floor makes that promise enforceable.
+          </p>
+        </li>
+        <li class="border-paper/30 border-t pt-4">
+          <p class="text-paper/60 font-mono text-xs tracking-wider uppercase">02</p>
+          <p class="text-paper/95 mt-2 leading-snug">
+            The Bank of England says 21% of firms already use market-responsive pricing, rising to
+            31% in a year.
+          </p>
+        </li>
+        <li class="border-paper/30 border-t pt-4">
+          <p class="text-paper/60 font-mono text-xs tracking-wider uppercase">03</p>
+          <p class="text-paper/95 mt-2 leading-snug">
+            France, Maryland and the EU have already begun legislating. The UK is behind.
+          </p>
+        </li>
+      </ol>
+
+      <div class="mt-12 flex flex-wrap items-center gap-3">
+        <CTAButton href="/find-your-mp" variant="inverse" size="lg">
+          Find your MP and send a letter
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 16 16"
+            width="14"
+            height="14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"></path></svg
+          >
+        </CTAButton>
+        <a
+          href="/downloads/evidence-briefing.pdf"
+          download
+          class="text-paper/80 hover:text-paper text-sm underline underline-offset-4"
+        >
+          Read the evidence (PDF · 30 pages)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5 — Footer of front page -->
+  <section class="border-rule bg-paper-elevated border-t">
+    <div class="container-wide grid gap-10 py-12 md:grid-cols-2">
+      <div>
+        <p class="text-accent font-mono text-xs font-semibold tracking-[0.18em] uppercase">
+          If you need help with food today
+        </p>
+        <p class="text-ink/85 mt-3">
+          We do not run a food bank — but here are two starting points used by hundreds of thousands
+          of people every month.
+        </p>
+        <ul class="mt-4 space-y-2">
+          <li>
+            <a
+              href="https://www.trussell.org.uk/find-a-foodbank"
+              rel="noopener noreferrer"
+              target="_blank"
+              class="text-primary"
+            >
+              Trussell food bank locator
+            </a>
+            <span class="text-muted"> — find a food bank near you.</span>
+          </li>
+          <li>
+            <a
+              href="https://www.citizensadvice.org.uk/benefits/help-if-on-a-low-income/using-a-food-bank/"
+              rel="noopener noreferrer"
+              target="_blank"
+              class="text-primary"
+            >
+              Citizens Advice
+            </a>
+            <span class="text-muted"> — referrals, benefits and budgeting help.</span>
+          </li>
+        </ul>
+        <p class="mt-4">
+          <a href="/resources" class="text-primary text-sm">More help — see the full list →</a>
+        </p>
+      </div>
+      <div>
+        <p class="text-accent font-mono text-xs font-semibold tracking-[0.18em] uppercase">
+          Resources for MPs and journalists
+        </p>
+        <p class="text-ink/85 mt-3">
+          The full evidence briefing, the indicative draft Bill, the one-page cross-party summary
+          and the constituent letter template are all on the
+          <a href="/downloads" class="text-primary">downloads page</a> — Word and PDF.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

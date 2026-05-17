@@ -1,0 +1,15 @@
+{
+  "figure": "21% → 31%",
+  "label": "UK firms using market-responsive pricing tools, today vs. expected next year",
+  "context": "Bank of England survey, 2026",
+  "interpretation": "The Bank of England recorded the largest planned increase in any pricing tool it surveyed — algorithmic pricing, including AI, is going mainstream.",
+  "isHarm": false,
+  "tags": ["algorithmic-pricing", "deployment"],
+  "source": {
+    "name": "Bank of England — This time it's personal",
+    "url": "https://www.bankofengland.co.uk/bank-insights/2026/this-time-its-personal-the-rise-of-dynamic-personalised-pricing-and-what-it-means-for-inflation",
+    "date": "2026"
+  },
+  "featured": true,
+  "order": 8
+}

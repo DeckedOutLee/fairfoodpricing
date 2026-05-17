@@ -1,0 +1,67 @@
+---
+import { nav, site } from '@/lib/site';
+import Wordmark from './Wordmark.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="border-rule bg-paper-elevated mt-24 border-t">
+  <div class="container-wide grid gap-10 py-12 md:grid-cols-3">
+    <div>
+      <Wordmark variant="inline" tone="ink" class="h-7 w-auto" />
+      <p class="text-muted mt-4 max-w-prose text-sm">
+        {site.strapline}
+      </p>
+      <p class="text-muted mt-4 text-sm">
+        Published by <strong class="text-ink font-semibold">{site.publisher.name}</strong>.
+        <br />
+        <a href={`mailto:${site.publisher.email}`} class="text-primary">{site.publisher.email}</a>
+        <br />
+        <span>{site.publisher.affiliation}</span>
+      </p>
+    </div>
+
+    <nav aria-label="Footer" class="text-sm">
+      <h2 class="text-muted text-[0.8rem] font-semibold tracking-wider uppercase">Site</h2>
+      <ul class="mt-3 flex flex-col gap-2">
+        {
+          nav.footer.map((item) => (
+            <li>
+              <a href={item.href} class="text-ink/85 hover:text-ink no-underline">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href="/privacy#accessibility" class="text-ink/85 hover:text-ink no-underline"
+            >Accessibility statement</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="text-sm">
+      <h2 class="text-muted text-[0.8rem] font-semibold tracking-wider uppercase">Reuse</h2>
+      <p class="text-muted mt-3">
+        Prose and statistics on this site are published under
+        <a
+          href="https://creativecommons.org/licenses/by/4.0/"
+          rel="noopener noreferrer"
+          target="_blank"
+          class="text-primary">CC BY 4.0</a
+        >. The codebase is MIT-licensed.
+      </p>
+      <p class="text-muted mt-3">
+        Letters are generated entirely in your browser. Nothing is sent to a server.
+      </p>
+    </div>
+  </div>
+
+  <div class="border-rule border-t">
+    <div
+      class="container-wide text-muted flex flex-col gap-2 py-4 text-xs sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} {site.publisher.name}. Built for the public record.</p>
+      <p>No cookies. No third-party trackers. No Google fonts at runtime.</p>
+    </div>
+  </div>
+</footer>

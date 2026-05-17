@@ -1,0 +1,15 @@
+{
+  "figure": "38%",
+  "label": "rise in UK food prices since November 2020",
+  "context": "Five years to November 2025",
+  "interpretation": "Food prices rose around ten percentage points faster than overall inflation in this period.",
+  "isHarm": true,
+  "tags": ["food-poverty"],
+  "source": {
+    "name": "House of Commons Library, CDP-2026-0004",
+    "url": "https://commonslibrary.parliament.uk/research-briefings/cdp-2026-0004/",
+    "date": "2026"
+  },
+  "featured": true,
+  "order": 3
+}

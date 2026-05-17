@@ -1,0 +1,109 @@
+---
+import { nav } from '@/lib/site';
+import Wordmark from './Wordmark.astro';
+
+const pathname = Astro.url.pathname;
+const current = (href: string) =>
+  href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
+---
+
+<header
+  class="border-rule bg-paper/95 supports-[backdrop-filter]:bg-paper/80 sticky top-0 z-40 border-b backdrop-blur-sm"
+>
+  <div class="container-wide flex items-center justify-between gap-6 py-4">
+    <a
+      href="/"
+      class="block no-underline focus-visible:outline-offset-4"
+      aria-label="Fair Food Pricing — home"
+    >
+      <Wordmark variant="inline" tone="ink" class="h-7 w-auto" />
+    </a>
+
+    <nav aria-label="Primary" class="hidden md:block">
+      <ul class="flex items-center gap-6 text-[0.95rem]">
+        {
+          nav.primary.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={current(item.href) ? 'page' : undefined}
+                class:list={[
+                  'text-ink/85 hover:text-ink py-2 no-underline transition-colors',
+                  current(item.href) && 'border-primary border-b-2 font-semibold',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a
+      href="/find-your-mp"
+      class="bg-primary text-paper hover:bg-primary-hover hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold no-underline transition-colors md:inline-flex"
+    >
+      Write to your MP
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 16 16"
+        width="14"
+        height="14"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"></path></svg
+      >
+    </a>
+
+    <details class="relative md:hidden">
+      <summary
+        aria-label="Open menu"
+        class="hover:bg-rule/40 cursor-pointer list-none rounded-md p-2"
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          width="24"
+          height="24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </summary>
+      <nav
+        aria-label="Primary mobile"
+        class="border-rule bg-paper-elevated absolute top-full right-0 mt-2 w-64 rounded-xl border p-2 shadow-lg"
+      >
+        <ul class="flex flex-col gap-1">
+          {
+            nav.primary.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={current(item.href) ? 'page' : undefined}
+                  class="text-ink/90 hover:bg-rule/40 block rounded-md px-3 py-2 no-underline"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+          <li class="border-rule mt-1 border-t pt-2">
+            <a
+              href="/find-your-mp"
+              class="bg-primary text-paper hover:bg-primary-hover block rounded-md px-3 py-2 text-center font-semibold no-underline"
+            >
+              Write to your MP →
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>

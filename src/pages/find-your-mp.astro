@@ -1,0 +1,61 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import MPFinder from '@/components/MPFinder';
+---
+
+<Base
+  title="Find your MP"
+  description="Enter your UK postcode to find your MP, then send them a letter about AI-driven dynamic pricing of essential food."
+>
+  <PageHeader
+    eyebrow="Step 1 of 2"
+    title="Find your MP"
+    intro="Enter your postcode and we’ll find the right MP in two seconds. You can then send them a letter — physically or by email — in under a minute."
+  />
+
+  <div class="container-readable py-10">
+    <MPFinder client:load />
+
+    <noscript>
+      <div class="border-rule bg-paper-elevated mt-6 rounded-2xl border p-6">
+        <h2 class="font-display text-h3 font-semibold">JavaScript is needed for instant lookup</h2>
+        <p class="text-ink/85 mt-2">
+          The postcode lookup uses live data from the Parliament service. With JavaScript off, you
+          can still find your MP manually:
+        </p>
+        <ol class="text-ink/85 mt-4 list-decimal space-y-2 pl-6">
+          <li>
+            Go to <a class="text-primary" href="https://members.parliament.uk/FindYourMP"
+              >members.parliament.uk/FindYourMP</a
+            >.
+          </li>
+          <li>Enter your postcode and copy your MP’s name and email.</li>
+          <li>
+            Use the <a class="text-primary" href="/downloads">letter template</a> on the downloads page
+            — it’s a .docx you can edit and post or email.
+          </li>
+        </ol>
+      </div>
+    </noscript>
+
+    <section class="mt-12 max-w-prose">
+      <h2 class="font-display text-h2 text-ink font-semibold">How this works</h2>
+      <p class="text-ink/85 mt-3">
+        Your postcode is sent to <a
+          class="text-primary"
+          href="https://postcodes.io"
+          rel="noopener noreferrer"
+          target="_blank">postcodes.io</a
+        >, a free non-profit service, only to look up your parliamentary constituency. That
+        constituency name is then sent to the official UK Parliament Members API to retrieve your
+        MP’s name and parliamentary email.
+      </p>
+      <p class="text-ink/85 mt-3">
+        No data is stored on our side. We do not write your postcode to your browser’s storage. We
+        do not log it. See the <a class="text-primary" href="/privacy">privacy notice</a> for the full
+        data flow.
+      </p>
+    </section>
+  </div>
+</Base>

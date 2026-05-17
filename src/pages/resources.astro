@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+
+const all = await getCollection('resources');
+const helpNow = all
+  .filter((r) => r.data.section === 'help-now')
+  .sort((a, b) => a.data.order - b.data.order);
+const research = all
+  .filter((r) => r.data.section === 'research-campaign')
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Resources"
+  description="Food help available now, and research and campaign sources behind this site."
+>
+  <PageHeader
+    eyebrow="Help and research"
+    title="Resources"
+    intro="If you need food help right now, the first list is for you. If you’re researching, campaigning or reporting on UK food poverty and pricing, the second list is where to start."
+  />
+
+  <section class="container-readable py-12" aria-labelledby="help-heading">
+    <h2 id="help-heading" class="font-display text-h2 text-ink font-semibold">
+      If you need food help today
+    </h2>
+    <p class="text-ink/85 mt-3 max-w-prose">
+      These services exist for everyone. You do not need to be in crisis to ask. Most food banks
+      need a referral from a partner agency such as Citizens Advice, your GP, a school or social
+      worker — the link below explains how that works.
+    </p>
+    <ul class="mt-8 grid gap-4 md:grid-cols-2" role="list">
+      {
+        helpNow.map((r) => (
+          <li class="border-rule bg-paper-elevated rounded-2xl border p-5">
+            <h3 class="font-display text-h3 text-ink font-semibold">
+              <a href={r.data.url} rel="noopener noreferrer" target="_blank" class="text-primary">
+                {r.data.name}
+              </a>
+            </h3>
+            <p class="text-ink/85 mt-2 text-sm">{r.data.description}</p>
+            {r.data.coverage && (
+              <p class="text-muted mt-3 font-mono text-xs tracking-wider uppercase">
+                {r.data.coverage}
+              </p>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="border-rule bg-paper-elevated border-t">
+    <div class="container-readable py-12" aria-labelledby="research-heading">
+      <h2 id="research-heading" class="font-display text-h2 text-ink font-semibold">
+        If you want to research or campaign
+      </h2>
+      <p class="text-ink/85 mt-3 max-w-prose">
+        These are the organisations whose data and analysis this campaign cites. Their work is more
+        comprehensive than anything on this site.
+      </p>
+      <ul class="mt-8 grid gap-4 md:grid-cols-2" role="list">
+        {
+          research.map((r) => (
+            <li class="border-rule bg-paper rounded-2xl border p-5">
+              <h3 class="font-display text-h3 text-ink font-semibold">
+                <a href={r.data.url} rel="noopener noreferrer" target="_blank" class="text-primary">
+                  {r.data.name}
+                </a>
+              </h3>
+              <p class="text-ink/85 mt-2 text-sm">{r.data.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>

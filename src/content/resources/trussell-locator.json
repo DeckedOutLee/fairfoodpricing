@@ -1,0 +1,8 @@
+{
+  "name": "Trussell Trust food bank locator",
+  "description": "Find your nearest Trussell food bank. Most food banks require a referral from a partner agency such as Citizens Advice, your GP, school, or social worker.",
+  "url": "https://www.trussell.org.uk/find-a-foodbank",
+  "section": "help-now",
+  "coverage": "UK-wide",
+  "order": 1
+}

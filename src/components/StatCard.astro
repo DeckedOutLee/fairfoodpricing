@@ -1,0 +1,47 @@
+---
+interface Props {
+  figure: string;
+  label: string;
+  context?: string;
+  source?: { name: string; url: string; date?: string };
+  isHarm?: boolean;
+  size?: 'md' | 'lg';
+}
+
+const { figure, label, context, source, isHarm = false, size = 'md' } = Astro.props as Props;
+const figureColour = isHarm ? 'text-warning' : 'text-ink';
+const figureSize = size === 'lg' ? 'text-stat' : 'text-h1';
+---
+
+<article
+  class="group border-rule bg-paper-elevated hover:border-ink/30 flex h-full flex-col rounded-2xl border p-6 transition-colors"
+>
+  <p
+    class:list={[
+      'font-display leading-none font-semibold tracking-tight',
+      figureColour,
+      figureSize,
+    ]}
+  >
+    {figure}
+  </p>
+  <p class="text-ink/85 mt-3 text-base leading-snug">
+    <slot>{label}</slot>
+  </p>
+  {
+    context && (
+      <p class="text-muted mt-2 text-xs font-semibold tracking-wide uppercase">{context}</p>
+    )
+  }
+  {
+    source && (
+      <p class="text-muted mt-auto pt-4 text-xs">
+        Source:{' '}
+        <a href={source.url} rel="noopener noreferrer" target="_blank" class="text-primary">
+          {source.name}
+          {source.date ? `, ${source.date}` : ''}
+        </a>
+      </p>
+    )
+  }
+</article>

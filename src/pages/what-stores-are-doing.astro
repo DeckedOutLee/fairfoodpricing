@@ -1,0 +1,115 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CTAButton from '@/components/CTAButton.astro';
+
+const retailers = [
+  {
+    name: 'Morrisons',
+    installed: '10.8 million electronic shelf labels across all 497 stores from early 2026.',
+    public:
+      'Press release frames it as efficiency and price-accuracy; no mention of personalised pricing.',
+    regulatory:
+      'No regulator finding to date. CMA has flagged dynamic pricing for further work under the DMCCA 2024.',
+    source: {
+      name: 'Morrisons press release, October 2025',
+      url: 'https://www.morrisons-corporate.com/media-centre/corporate-news/',
+    },
+  },
+  {
+    name: 'Co-op',
+    installed: 'Digital labels across all 2,400 stores by end-2026.',
+    public: 'Statement emphasises operational efficiency and price-change accuracy.',
+    regulatory: 'No regulator finding to date.',
+    source: {
+      name: 'Co-op statement, May 2025',
+      url: 'https://www.coop.co.uk/media/news-releases',
+    },
+  },
+  {
+    name: 'Asda',
+    installed:
+      'Live facial recognition trial in five Greater Manchester stores (March 2025); thousands of digital labels across Asda Express.',
+    public:
+      'Trial framed as theft prevention. Asda has not publicly admitted to demand-based personalised pricing.',
+    regulatory:
+      'The 2025 trial generated 5,425 customer complaints and an Information Commissioner complaint from Big Brother Watch.',
+    source: {
+      name: 'Big Brother Watch complaint',
+      url: 'https://bigbrotherwatch.org.uk/campaigns/',
+    },
+  },
+  {
+    name: 'Sainsbury’s',
+    installed: 'Trialling digital shelf-edge labels in “Future Store” pilots.',
+    public: 'Framed as a customer-experience refresh.',
+    regulatory: 'No regulator finding to date.',
+    source: {
+      name: 'Press coverage, 2025',
+      url: 'https://www.sainsburys.co.uk/about-us/media-centre',
+    },
+  },
+  {
+    name: 'Southern Co-op',
+    installed:
+      'Facewatch live facial recognition across a number of South Coast stores; investigated by ICO.',
+    public: 'Statement framed it as anti-shoplifting. Project began in 2020.',
+    regulatory:
+      'ICO found in March 2023 that the deployment breached UK data protection law on multiple counts.',
+    source: {
+      name: 'ICO decision, March 2023',
+      url: 'https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/',
+    },
+  },
+];
+---
+
+<Base
+  title="What UK supermarkets are doing"
+  description="A retailer-by-retailer rundown of the electronic shelf labels, facial-recognition trials and digital pricing infrastructure being installed across the UK estate."
+>
+  <PageHeader
+    eyebrow="The deployment"
+    title="What UK supermarkets are doing"
+    intro="None of these supermarkets has admitted to surge-pricing essentials. The hardware that makes it possible is being installed across the major estates today."
+  />
+
+  <div class="container-readable grid gap-6 py-10">
+    {
+      retailers.map((r) => (
+        <article class="border-rule bg-paper-elevated rounded-2xl border p-6">
+          <h2 class="font-display text-h2 text-ink font-semibold">{r.name}</h2>
+          <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-[10rem_1fr]">
+            <dt class="text-muted text-xs font-semibold tracking-wide uppercase">Installed</dt>
+            <dd class="text-ink/90">{r.installed}</dd>
+            <dt class="text-muted text-xs font-semibold tracking-wide uppercase">
+              Public statements
+            </dt>
+            <dd class="text-ink/90">{r.public}</dd>
+            <dt class="text-muted text-xs font-semibold tracking-wide uppercase">Regulatory</dt>
+            <dd class="text-ink/90">{r.regulatory}</dd>
+          </dl>
+          <p class="text-muted mt-4 text-sm">
+            Source:{' '}
+            <a href={r.source.url} rel="noopener noreferrer" target="_blank" class="text-primary">
+              {r.source.name}
+            </a>
+          </p>
+        </article>
+      ))
+    }
+  </div>
+
+  <section class="container-readable pb-12">
+    <p class="text-muted text-sm">
+      Phase 2 will cover Tesco, Lidl, Aldi, Waitrose and M&amp;S in equivalent detail. If you have
+      authoritative primary-source updates,
+      <a href="mailto:hello@fairfoodpricing.co.uk" class="text-primary">email us</a> — we’ll add them.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <CTAButton href="/find-your-mp" variant="primary" size="lg">Write to your MP</CTAButton>
+      <CTAButton href="/the-evidence" variant="secondary" size="lg">See the full evidence</CTAButton
+      >
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,19 @@
+---
+interface Props {
+  tone?: 'info' | 'warning' | 'success';
+  title?: string;
+}
+const { tone = 'info', title } = Astro.props as Props;
+const tones = {
+  info: 'border-primary/30 bg-primary/[0.05] text-ink',
+  warning: 'border-warning/30 bg-warning/[0.06] text-ink',
+  success: 'border-success/30 bg-success/[0.06] text-ink',
+};
+---
+
+<aside role="note" class:list={['my-8 rounded-2xl border-l-4 px-6 py-5', tones[tone]]}>
+  {title && <p class="font-display text-h3 mb-2 font-semibold">{title}</p>}
+  <div class="prose prose-neutral max-w-none [&>p:last-child]:mb-0">
+    <slot />
+  </div>
+</aside>

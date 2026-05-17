@@ -1,0 +1,89 @@
+---
+interface Props {
+  variant?: 'inline' | 'stacked';
+  tone?: 'ink' | 'paper';
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  variant = 'inline',
+  tone = 'ink',
+  ariaLabel = 'Fair Food Pricing',
+  class: className = '',
+} = Astro.props;
+const fill = tone === 'paper' ? 'var(--color-paper)' : 'var(--color-ink)';
+const accent = tone === 'paper' ? 'var(--color-paper)' : 'var(--color-accent)';
+---
+
+{
+  variant === 'inline' ? (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 260 36"
+      role="img"
+      aria-label={ariaLabel}
+      class={className}
+      width="190"
+      height="26"
+    >
+      <text
+        x="0"
+        y="26"
+        font-family="'Source Serif 4 Variable', Georgia, serif"
+        font-size="26"
+        font-weight="600"
+        letter-spacing="-0.01em"
+        fill={fill}
+      >
+        Fair Food Pricing
+      </text>
+      <rect x="0" y="32" width="46" height="3" fill={accent} />
+    </svg>
+  ) : (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 220 90"
+      role="img"
+      aria-label={ariaLabel}
+      class={className}
+      width="220"
+      height="90"
+    >
+      <text
+        x="0"
+        y="34"
+        font-family="'Source Serif 4 Variable', Georgia, serif"
+        font-size="32"
+        font-weight="600"
+        letter-spacing="-0.01em"
+        fill={fill}
+      >
+        Fair
+      </text>
+      <text
+        x="0"
+        y="62"
+        font-family="'Source Serif 4 Variable', Georgia, serif"
+        font-size="32"
+        font-weight="600"
+        letter-spacing="-0.01em"
+        fill={fill}
+      >
+        Food
+      </text>
+      <text
+        x="0"
+        y="90"
+        font-family="'Source Serif 4 Variable', Georgia, serif"
+        font-size="32"
+        font-weight="600"
+        letter-spacing="-0.01em"
+        fill={fill}
+      >
+        Pricing
+      </text>
+      <rect x="0" y="0" width="56" height="4" fill={accent} />
+    </svg>
+  )
+}

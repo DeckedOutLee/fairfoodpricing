@@ -1,0 +1,15 @@
+{
+  "figure": "10.8 million",
+  "label": "electronic shelf labels being installed across all 497 Morrisons stores",
+  "context": "Rollout from early 2026",
+  "interpretation": "The hardware to change prices per shopper, per minute, is being installed across the major UK supermarket estates today.",
+  "isHarm": false,
+  "tags": ["deployment", "algorithmic-pricing"],
+  "source": {
+    "name": "Morrisons press release",
+    "url": "https://www.morrisons-corporate.com/media-centre/corporate-news/",
+    "date": "October 2025"
+  },
+  "featured": true,
+  "order": 6
+}

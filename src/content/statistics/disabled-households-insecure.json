@@ -1,0 +1,15 @@
+{
+  "figure": "40%",
+  "label": "of households with a disabled adult are food insecure",
+  "context": "January 2026",
+  "interpretation": "Households containing a disabled adult are around three times more likely to be food insecure than the general population.",
+  "isHarm": true,
+  "tags": ["food-poverty"],
+  "source": {
+    "name": "Food Foundation",
+    "url": "https://foodfoundation.org.uk/news/latest-food-insecurity-tracker-shows-millions-struggling-feed-themselves",
+    "date": "2026"
+  },
+  "featured": true,
+  "order": 5
+}

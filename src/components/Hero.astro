@@ -1,0 +1,76 @@
+---
+import CTAButton from './CTAButton.astro';
+
+interface Props {
+  headline: string;
+  subhead: string;
+  primary?: { href: string; label: string };
+  secondary?: { href: string; label: string };
+}
+const { headline, subhead, primary, secondary } = Astro.props as Props;
+---
+
+<section class="bg-paper relative overflow-hidden">
+  <div
+    aria-hidden="true"
+    class="bg-ruling-lines pointer-events-none absolute inset-0 opacity-[0.35]"
+  >
+  </div>
+  <div class="container-wide relative grid gap-10 py-16 md:grid-cols-12 md:gap-12 md:py-24">
+    <div class="md:col-span-8">
+      <p class="text-accent font-mono text-xs font-semibold tracking-[0.18em] uppercase">
+        A UK campaign · launched <time datetime="2026-05-17">17 May 2026</time>
+      </p>
+      <h1
+        class="font-display text-ink text-display mt-6 max-w-[18ch] leading-[1.05] font-semibold tracking-tight"
+      >
+        {headline}
+      </h1>
+      <p class="text-ink/85 mt-6 max-w-prose text-lg leading-relaxed md:text-xl">
+        {subhead}
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        {
+          primary && (
+            <CTAButton href={primary.href} variant="primary" size="lg">
+              {primary.label}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 8h10M9 4l4 4-4 4" />
+              </svg>
+            </CTAButton>
+          )
+        }
+        {
+          secondary && (
+            <CTAButton href={secondary.href} variant="secondary" size="lg">
+              {secondary.label}
+            </CTAButton>
+          )
+        }
+      </div>
+    </div>
+    <aside class="md:border-rule md:col-span-4 md:border-l md:pl-8">
+      <p class="text-muted font-mono text-xs font-semibold tracking-[0.18em] uppercase">
+        In one sentence
+      </p>
+      <p class="font-display text-h3 text-ink/90 mt-4 leading-snug italic">
+        Stop AI-driven personalised and dynamic pricing of essential food in UK supermarkets —
+        before the practice becomes normal.
+      </p>
+      <p class="text-muted mt-4 text-sm">
+        We back a narrowly-drawn Bill, evidenced by 30 pages of primary sources. It is cross-party.
+        It does not impose price controls.
+      </p>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,139 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import StatCard from '@/components/StatCard.astro';
+import CTAButton from '@/components/CTAButton.astro';
+
+const allStats = await getCollection('statistics');
+const sorted = allStats.sort((a, b) => a.data.order - b.data.order);
+
+const allTags = Array.from(new Set(allStats.flatMap((s) => s.data.tags))).sort();
+
+const references = (await getCollection('references')).sort((a, b) => {
+  if (a.data.type === b.data.type) return a.data.title.localeCompare(b.data.title);
+  return a.data.type.localeCompare(b.data.type);
+});
+---
+
+<Base
+  title="The evidence"
+  description="Every key statistic in the Fair Food Pricing campaign, with primary sources. Filter by topic."
+>
+  <PageHeader
+    eyebrow="With sources"
+    title="The evidence"
+    intro="Every figure here cites a primary source — government, regulator, or established think tank. Use the filter to narrow by topic."
+  />
+
+  <div class="container-wide py-10">
+    <fieldset class="flex flex-wrap gap-2" aria-label="Filter statistics by topic">
+      <legend class="sr-only">Filter statistics by topic</legend>
+      <button
+        type="button"
+        data-tag-filter="all"
+        class="border-primary bg-primary text-paper rounded-full border px-4 py-1.5 text-sm font-semibold"
+        >All</button
+      >
+      {
+        allTags.map((tag) => (
+          <button
+            type="button"
+            data-tag-filter={tag}
+            class="border-ink/20 text-ink/85 hover:border-ink/40 rounded-full border px-4 py-1.5 text-sm font-semibold"
+          >
+            {tag.replace(/-/g, ' ')}
+          </button>
+        ))
+      }
+    </fieldset>
+
+    <ul role="list" id="stat-list" class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        sorted.map((s) => (
+          <li class="contents" data-tags={s.data.tags.join(',')}>
+            <StatCard
+              figure={s.data.figure}
+              label={s.data.label}
+              context={s.data.context}
+              source={s.data.source}
+              isHarm={s.data.isHarm}
+            >
+              {s.data.interpretation}
+            </StatCard>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <section class="border-rule bg-paper-elevated border-t">
+    <div class="container-readable py-12">
+      <h2 class="font-display text-h2 text-ink font-semibold">References</h2>
+      <p class="text-ink/85 mt-3 max-w-prose">
+        Primary sources behind the figures. Sorted by type — government, primary, industry, press,
+        academic, secondary — and then alphabetically.
+      </p>
+      <dl class="mt-6 grid gap-4">
+        {
+          references.map((r) => (
+            <div class="border-rule border-t pt-4">
+              <dt class="flex flex-wrap items-baseline gap-3">
+                <a
+                  href={r.data.url}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  class="font-display text-h3 text-primary font-semibold"
+                >
+                  {r.data.title}
+                </a>
+                <span class="text-muted font-mono text-xs tracking-wider uppercase">
+                  {r.data.type} · {r.data.date}
+                </span>
+              </dt>
+              <dd class="text-ink/85 mt-1 text-sm">
+                <span class="font-semibold">{r.data.author}.</span>
+                {r.data.note && <span class="text-ink/85 ml-1">{r.data.note}</span>}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="container-readable py-10">
+    <div class="flex flex-wrap gap-3">
+      <CTAButton href="/find-your-mp" variant="primary" size="lg">Write to your MP</CTAButton>
+      <CTAButton href="/downloads" variant="secondary" size="lg"
+        >Download the full briefing</CTAButton
+      >
+    </div>
+  </section>
+
+  <script is:inline>
+    (() => {
+      const filters = document.querySelectorAll('[data-tag-filter]');
+      const items = document.querySelectorAll('#stat-list > li');
+      function apply(tag) {
+        items.forEach((li) => {
+          const tags = (li.getAttribute('data-tags') || '').split(',');
+          const show = tag === 'all' || tags.includes(tag);
+          li.style.display = show ? '' : 'none';
+        });
+        filters.forEach((b) => {
+          const active = b.getAttribute('data-tag-filter') === tag;
+          b.classList.toggle('bg-primary', active);
+          b.classList.toggle('text-paper', active);
+          b.classList.toggle('border-primary', active);
+          b.classList.toggle('border-ink/20', !active);
+          b.classList.toggle('text-ink/85', !active);
+          b.classList.toggle('bg-transparent', !active);
+        });
+      }
+      filters.forEach((b) =>
+        b.addEventListener('click', () => apply(b.getAttribute('data-tag-filter') || 'all')),
+      );
+    })();
+  </script>
+</Base>

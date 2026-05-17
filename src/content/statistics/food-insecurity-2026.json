@@ -1,0 +1,15 @@
+{
+  "figure": "6.3 million",
+  "label": "UK adults are food insecure",
+  "context": "January 2026",
+  "interpretation": "About 12% of UK households were food insecure at the start of 2026 — the worst point in living memory.",
+  "isHarm": true,
+  "tags": ["food-poverty"],
+  "source": {
+    "name": "Food Foundation Food Insecurity Tracker",
+    "url": "https://foodfoundation.org.uk/news/latest-food-insecurity-tracker-shows-millions-struggling-feed-themselves",
+    "date": "2026"
+  },
+  "featured": true,
+  "order": 1
+}

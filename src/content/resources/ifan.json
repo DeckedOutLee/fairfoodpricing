@@ -1,0 +1,8 @@
+{
+  "name": "Independent Food Aid Network",
+  "description": "Network of independent food banks and pantries across the UK. Useful when Trussell does not cover your area.",
+  "url": "https://www.foodaidnetwork.org.uk/independent-food-banks-map",
+  "section": "help-now",
+  "coverage": "UK-wide",
+  "order": 2
+}

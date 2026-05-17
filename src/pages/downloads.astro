@@ -1,0 +1,77 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import CTAButton from '@/components/CTAButton.astro';
+
+const downloads = [
+  {
+    title: 'Evidence briefing',
+    description:
+      '30-page primary-source evidence dossier. Covers UK food poverty, the deployed pricing technology, the regulatory environment, the international comparison, and the counter-arguments. Cited throughout this site.',
+    files: { docx: '/downloads/evidence-briefing.docx', pdf: '/downloads/evidence-briefing.pdf' },
+    meta: 'Published 17 May 2026 · 30 pages',
+  },
+  {
+    title: 'Draft Bill text',
+    description:
+      'Indicative drafting of the Fair Food Pricing Bill — four substantive clauses, enforcement architecture, statutory review.',
+    files: { docx: '/downloads/draft-bill.docx', pdf: '/downloads/draft-bill.pdf' },
+    meta: 'Published 17 May 2026 · indicative drafting',
+  },
+  {
+    title: 'One-page cross-party summary',
+    description:
+      'For circulation to MPs and staffers. Summarises the problem, the proposal and the cross-party context on a single page.',
+    files: { docx: '/downloads/one-pager.docx', pdf: '/downloads/one-pager.pdf' },
+    meta: 'Published 17 May 2026 · 1 page',
+  },
+  {
+    title: 'Letter to MP — editable template',
+    description:
+      'The canonical letter, as a Word document you can edit and send. The “Send a letter” page generates this automatically with your details.',
+    files: { docx: '/downloads/letter-template.docx', pdf: '/downloads/letter-template.pdf' },
+    meta: 'Published 17 May 2026 · editable',
+  },
+];
+---
+
+<Base
+  title="Downloads"
+  description="Download the evidence briefing, draft Bill, cross-party one-pager and editable letter template. Word and PDF formats."
+>
+  <PageHeader
+    eyebrow="For MPs, journalists, researchers"
+    title="Downloads"
+    intro="Everything is available in Word and PDF. All content is licensed under Creative Commons CC BY 4.0 — reuse it freely, with attribution."
+  />
+
+  <div class="container-readable grid gap-6 py-10">
+    {
+      downloads.map((d) => (
+        <article class="border-rule bg-paper-elevated rounded-2xl border p-6">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 class="font-display text-h2 text-ink font-semibold">{d.title}</h2>
+            <p class="text-muted font-mono text-xs tracking-wider uppercase">{d.meta}</p>
+          </div>
+          <p class="text-ink/85 mt-3 max-w-prose">{d.description}</p>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <CTAButton href={d.files.docx} download size="md" variant="secondary">
+              Word .docx
+            </CTAButton>
+            <CTAButton href={d.files.pdf} download size="md" variant="secondary">
+              PDF
+            </CTAButton>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <section class="container-readable py-8">
+    <p class="text-muted text-sm">
+      File integrity: all downloads are generated from the source markdown in this repo and
+      re-produced at every release. If a file fails to download, refresh and try again — or
+      <a href="mailto:hello@fairfoodpricing.co.uk" class="text-primary">email us</a>.
+    </p>
+  </section>
+</Base>

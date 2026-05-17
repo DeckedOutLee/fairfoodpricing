@@ -1,0 +1,68 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import EmailSignup from '@/components/EmailSignup.tsx';
+import { site } from '@/lib/site';
+---
+
+<Base
+  title="About"
+  description="About the Fair Food Pricing campaign — who runs it, what its position is, and how to get in touch."
+>
+  <PageHeader
+    eyebrow="Who and why"
+    title="About this campaign"
+    intro="A short, honest explainer. No mission statements, no founder photos."
+  />
+
+  <article class="container-prose prose prose-neutral [&_a]:text-primary max-w-none py-10">
+    <h2>Who runs this</h2>
+    <p>
+      The site is published independently by <strong>{site.publisher.name}</strong>. You can email <a
+        href={`mailto:${site.publisher.email}`}>{site.publisher.email}</a
+      >. We have no party affiliation. We have no paid staff. We do not receive funding from any
+      retailer, retail body or technology vendor.
+    </p>
+
+    <h2>Why this</h2>
+    <p>
+      Most political causes are reactive — we recognise a harm, then legislate after the fact.
+      AI-driven personalised pricing of food is one of the rare moments where the harm is visible on
+      the horizon, the hardware is being installed, but the practices it enables have not yet become
+      normal. The window to draw the line in advance is open. It will not be open for long.
+    </p>
+
+    <h2>What you can do</h2>
+    <ol>
+      <li>
+        <a href="/find-your-mp">Write to your MP</a> — the single biggest lever for a Private Member’s
+        Bill.
+      </li>
+      <li>
+        Forward the <a href="/downloads">one-page summary</a> to any MP, peer or journalist you know.
+      </li>
+      <li>
+        Share <a href="/the-evidence">the evidence page</a> with anyone who thinks this is overblown.
+      </li>
+      <li>Keep up to date via the email list below (low-volume, GDPR-clean).</li>
+    </ol>
+
+    <h2>Endorsements</h2>
+    <p>
+      None yet. The campaign launched on <time datetime="2026-05-17">17 May 2026</time>. If you are
+      an MP, charity, faith group, academic or trade body considering endorsement, please get in
+      touch.
+    </p>
+  </article>
+
+  <section class="container-prose border-rule border-t py-8">
+    <h2 class="font-display text-h2 text-ink font-semibold">Stay in the loop</h2>
+    <p class="text-ink/85 mt-3">
+      Occasional updates as the Bill moves. GDPR-compliant — explicit consent, no marketing lists,
+      no analytics.
+    </p>
+    <div class="mt-6">
+      <EmailSignup client:visible />
+    </div>
+  </section>
+</Base>

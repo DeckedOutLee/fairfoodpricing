@@ -1,0 +1,15 @@
+{
+  "figure": "2,400 stores",
+  "label": "Co-op is digitising by end-2026",
+  "context": "Announced May 2025",
+  "interpretation": "Co-op is installing digital shelf-edge labels across its entire estate within the year.",
+  "isHarm": false,
+  "tags": ["deployment", "algorithmic-pricing"],
+  "source": {
+    "name": "Co-op statement",
+    "url": "https://www.coop.co.uk/media/news-releases",
+    "date": "May 2025"
+  },
+  "featured": true,
+  "order": 7
+}

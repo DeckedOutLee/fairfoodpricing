@@ -1,0 +1,29 @@
+---
+interface Props {
+  cite?: string;
+  attribution?: string;
+  source?: { name: string; url: string };
+}
+const { cite, attribution, source } = Astro.props as Props;
+---
+
+<figure class="border-accent my-8 border-l-4 pl-6">
+  <blockquote cite={cite} class="font-display text-h2 text-ink leading-snug italic">
+    <slot />
+  </blockquote>
+  {
+    (attribution || source) && (
+      <figcaption class="text-muted mt-3 text-sm">
+        {attribution && <span>— {attribution}</span>}
+        {source && (
+          <>
+            {attribution && <span>, </span>}
+            <a href={source.url} rel="noopener noreferrer" target="_blank" class="text-primary">
+              {source.name}
+            </a>
+          </>
+        )}
+      </figcaption>
+    )
+  }
+</figure>

@@ -1,0 +1,8 @@
+{
+  "name": "Local Welfare Assistance",
+  "description": "Most councils run a hardship scheme that can provide emergency food, fuel or essential household items. Find yours via gov.uk.",
+  "url": "https://www.gov.uk/cost-living-help-local-council",
+  "section": "help-now",
+  "coverage": "England (Scotland, Wales, NI have separate schemes — linked from this page)",
+  "order": 6
+}

@@ -1,0 +1,191 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import Disclosure from '@/components/Disclosure.astro';
+import CTAButton from '@/components/CTAButton.astro';
+import Callout from '@/components/Callout.astro';
+---
+
+<Base
+  title="The Fair Food Pricing Bill"
+  description="A narrow, prospective Bill that restricts AI-driven personalised and dynamic pricing of essential food, requires shrinkflation disclosure, and closes the UK reference-price gap left by Brexit."
+>
+  <PageHeader
+    eyebrow="The proposal"
+    title="The Fair Food Pricing Bill"
+    intro="A narrow, prospective Bill — drafted to be cross-party — that does four substantive things. It does not propose price controls. It does not ban electronic shelf labels. It does not interfere with loyalty schemes or end-of-day markdowns."
+  />
+
+  <div class="container-readable py-8">
+    <div
+      class="border-rule bg-paper-elevated flex flex-wrap items-center gap-3 rounded-2xl border p-5"
+    >
+      <p class="text-ink font-semibold">Read or share the full draft:</p>
+      <CTAButton href="/downloads/draft-bill.docx" download size="md" variant="secondary">
+        Download as Word
+      </CTAButton>
+      <CTAButton href="/downloads/draft-bill.pdf" download size="md" variant="secondary">
+        Download as PDF
+      </CTAButton>
+    </div>
+  </div>
+
+  <section class="container-readable py-12" aria-labelledby="summary-heading">
+    <h2 id="summary-heading" class="font-display text-h2 text-ink font-semibold">
+      The four substantive provisions
+    </h2>
+    <ol class="mt-6 list-none space-y-6 pl-0">
+      <li class="border-primary border-l-4 pl-5">
+        <p class="text-muted font-mono text-xs tracking-wider uppercase">Clause 1</p>
+        <h3 class="font-display text-h3 text-ink font-semibold">
+          One price per essential, per moment in time
+        </h3>
+        <p class="text-ink/85 mt-2">
+          A supermarket above 280 m² (the Sunday Trading Act 1994 threshold) may not charge
+          different prices for the same essential food item to different identifiable consumers at
+          the same time. “Essential food items” are anchored to the VAT zero-rated schedule — bread,
+          milk, eggs, flour, rice, pasta, fresh produce, raw meat, dairy, infant formula. The list
+          is amendable by regulation after consultation.
+        </p>
+      </li>
+      <li class="border-primary border-l-4 pl-5">
+        <p class="text-muted font-mono text-xs tracking-wider uppercase">Clause 2</p>
+        <h3 class="font-display text-h3 text-ink font-semibold">
+          One upward price change per 24 hours
+        </h3>
+        <p class="text-ink/85 mt-2">
+          Upward time-of-day price changes on essentials are limited to one per 24 hours. There is
+          no restriction on markdowns. The model is the New York City Council’s recent proposal.
+        </p>
+      </li>
+      <li class="border-primary border-l-4 pl-5">
+        <p class="text-muted font-mono text-xs tracking-wider uppercase">Clause 3</p>
+        <h3 class="font-display text-h3 text-ink font-semibold">
+          Shrinkflation disclosure for 60 days
+        </h3>
+        <p class="text-ink/85 mt-2">
+          Shelf-edge and online disclosure for 60 days when an essential product has shrunk or had a
+          principal ingredient reduced and the unit price has not fallen. The model is the French <em
+            >Arrêté du 16 avril 2024</em
+          >.
+        </p>
+      </li>
+      <li class="border-primary border-l-4 pl-5">
+        <p class="text-muted font-mono text-xs tracking-wider uppercase">Clause 4</p>
+        <h3 class="font-display text-h3 text-ink font-semibold">
+          A 30-day reference-price rule for essentials
+        </h3>
+        <p class="text-ink/85 mt-2">
+          For essentials, the EU Price Indication Directive’s 30-day reference-price rule is
+          transposed, closing the gap left by Brexit. This directly answers <em>Which?</em> findings on
+          misleading loyalty-price “regular” prices.
+        </p>
+      </li>
+    </ol>
+
+    <Callout tone="info" title="Enforcement architecture">
+      <p>
+        Enforcement is vested in the <strong>Competition and Markets Authority</strong> using the architecture
+        of the Digital Markets, Competition and Consumers Act 2024, including the new direct-fining power
+        of up to 10% of global group turnover. Trading Standards has concurrent jurisdiction on disclosure.
+        Citizens Advice has super-complaint standing. The Bill applies online as well as in-store. A statutory
+        five-year review is included.
+      </p>
+    </Callout>
+  </section>
+
+  <section class="border-rule bg-paper-elevated border-t">
+    <div class="container-readable py-12" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="font-display text-h2 text-ink font-semibold">FAQ</h2>
+      <p class="text-ink/85 mt-3 max-w-prose">
+        The honest answers to the questions MPs’ caseworkers, journalists and policy researchers
+        ask.
+      </p>
+
+      <div class="mt-8">
+        <Disclosure question="Does this ban electronic shelf labels?">
+          <p>
+            No. The Bill explicitly preserves dynamic price updates for restocking, supplier-cost
+            pass-through, and uniform promotions. It restricts <em>upward time-of-day changes</em> on
+            essentials and <em>different prices for different identified consumers</em> on essentials.
+            Stores keep the technology and the operational benefits.
+          </p>
+        </Disclosure>
+        <Disclosure question="Does this stop end-of-day discounts?">
+          <p>
+            No. The Bill is symmetric only on upward changes. Markdowns — including the
+            yellow-sticker economy that gets fresh food out of skips and into kitchens — are
+            entirely unaffected.
+          </p>
+        </Disclosure>
+        <Disclosure question="What about Clubcard prices and Nectar prices?">
+          <p>
+            Loyalty pricing is not banned. The Bill bites only on <em>personalised</em> pricing — different
+            prices for different identified individuals at the same moment in time, on essentials. A flat
+            Clubcard discount available to every member who shows the card is a category discount, not
+            personalised pricing. Where loyalty pricing has misled consumers about a “regular” price,
+            the Clause 4 reference-price rule applies.
+          </p>
+        </Disclosure>
+        <Disclosure question="How is this enforced?">
+          <p>
+            Through the CMA, using powers under the Digital Markets, Competition and Consumers Act
+            2024. Direct-fining up to 10% of global group turnover. Trading Standards has concurrent
+            powers on disclosure breaches. Citizens Advice has super-complaint standing.
+          </p>
+        </Disclosure>
+        <Disclosure question="What happens to small shops, corner shops and farm shops?">
+          <p>
+            They are unaffected. The Bill applies only to supermarkets above 280 m² — the threshold
+            already used in the Sunday Trading Act 1994. Independent grocers, convenience stores and
+            farm shops below that threshold are out of scope.
+          </p>
+        </Disclosure>
+        <Disclosure question="Why aren’t Article 22 of the UK GDPR and the Equality Act in scope?">
+          <p>
+            Both are defensible on the evidence and the briefing flags them as legitimate concerns.
+            They are not in this Bill because including them widens its attack surface
+            unnecessarily. Article 22 has just been relaxed by the Data (Use and Access) Act 2025 —
+            the right vehicle for a counter-reform is updated ICO guidance, not a price-restriction
+            Bill. An Equality Act presumption around algorithmic indirect discrimination in retail
+            is better pursued through an EHRC inquiry. Both can be added at later stages of the Bill
+            if cross-party consensus turns out wider than expected.
+          </p>
+        </Disclosure>
+        <Disclosure question="Does this apply online as well as in-store?">
+          <p>
+            Yes. Personalisation engines are more developed online than in-store; the Bill applies
+            to both channels for the same supermarket.
+          </p>
+        </Disclosure>
+        <Disclosure question="What if a supermarket says “we don’t do this”?">
+          <p>
+            Good. The British Retail Consortium has already said publicly that supermarkets do not
+            use, and have no plan to use, dynamic or surge pricing in their stores. The Bill turns
+            that voluntary commitment into a legally binding one. It costs supermarkets nothing if
+            they meant what they said.
+          </p>
+        </Disclosure>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-readable py-12">
+    <h2 class="font-display text-h2 text-ink font-semibold">Routes for parliamentarians</h2>
+    <p class="text-ink/85 mt-3 max-w-prose">
+      The most efficient operational vehicle for much of this is regulation under
+      <strong>section 240 of the DMCCA 2024</strong>, which lets the Secretary of State add to the
+      “in all circumstances unfair” Schedule 19. A Private Member’s Bill or Ten Minute Rule motion
+      provides political mandate and visibility. Both routes — or a combination — are practical.
+    </p>
+    <p class="text-ink/85 mt-3 max-w-prose">
+      If you are an MP or staffer wanting a one-pager to circulate to colleagues, the
+      <a href="/downloads" class="text-primary">Downloads page</a> has it in Word and PDF.
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <CTAButton href="/find-your-mp" variant="primary" size="lg">Write to your MP</CTAButton>
+      <CTAButton href="/downloads" variant="secondary" size="lg">Download the full pack</CTAButton>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,15 @@
+{
+  "figure": "2.2 million",
+  "label": "children live in homes that cut down or skip meals",
+  "context": "January 2026",
+  "interpretation": "Cutting and skipping meals is now a routine response to food costs in millions of UK households with children.",
+  "isHarm": true,
+  "tags": ["food-poverty"],
+  "source": {
+    "name": "Food Foundation",
+    "url": "https://foodfoundation.org.uk/news/latest-food-insecurity-tracker-shows-millions-struggling-feed-themselves",
+    "date": "January 2026"
+  },
+  "featured": true,
+  "order": 2
+}

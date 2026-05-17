@@ -1,0 +1,15 @@
+{
+  "figure": "2.9 million",
+  "label": "emergency food parcels distributed by Trussell in 2024/25",
+  "context": "Year to March 2025",
+  "interpretation": "Food bank parcels for pensioners more than tripled between 2019/20 and 2024/25.",
+  "isHarm": true,
+  "tags": ["food-poverty"],
+  "source": {
+    "name": "Trussell end-of-year statistics",
+    "url": "https://www.trussell.org.uk/news-and-research/latest-stats",
+    "date": "2025"
+  },
+  "featured": true,
+  "order": 4
+}
