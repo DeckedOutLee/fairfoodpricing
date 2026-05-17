@@ -84,13 +84,39 @@ const mockSuccessful = makeFetchMock({
   '/Contact': {
     ok: true,
     json: {
+      // Real Members API response shape — many fields arrive as `null`,
+      // not `undefined`. This fixture mirrors a real response so that
+      // schema regressions (e.g. .optional() vs .nullable().optional())
+      // are caught here, not on production traffic.
       value: [
         {
           type: 'Parliamentary office',
+          typeDescription: null,
+          typeId: 1,
+          isPreferred: false,
+          isWebAddress: false,
+          notes: null,
           line1: 'House of Commons',
           line2: 'London',
+          line3: null,
+          line4: null,
+          line5: null,
           postcode: 'SW1A 0AA',
+          phone: '0207 219 6543',
+          fax: null,
           email: 'rachel.blake.mp@parliament.uk',
+          website: null,
+        },
+        {
+          type: 'Constituency office',
+          typeDescription: null,
+          typeId: 4,
+          line1: 'Constituency office',
+          line2: null,
+          line3: null,
+          postcode: null,
+          phone: null,
+          email: null,
         },
       ],
     },

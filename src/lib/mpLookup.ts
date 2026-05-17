@@ -70,8 +70,8 @@ const ContactResult = z.object({
     z
       .object({
         type: z.string(),
-        typeDescription: z.string().optional(),
-        typeId: z.number().optional(),
+        typeDescription: z.string().nullable().optional(),
+        typeId: z.number().nullable().optional(),
         line1: z.string().nullable().optional(),
         line2: z.string().nullable().optional(),
         line3: z.string().nullable().optional(),
