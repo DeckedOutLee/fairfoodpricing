@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Fair Food Pricing — Stop AI-driven pricing of essential food in UK supermarkets.">
   <rect width="1200" height="630" fill="#fafaf7"/>
-  <g font-family="'Source Serif 4', Georgia, serif">
+  <g font-family="'Montserrat', system-ui, -apple-system, sans-serif">
     <rect x="80" y="80" width="120" height="6" fill="#b45309"/>
-    <text x="80" y="220" font-size="96" font-weight="600" fill="#0f172a" letter-spacing="-0.02em">Fair Food Pricing</text>
-    <text x="80" y="320" font-size="40" font-weight="500" fill="#0f172a" font-family="'Inter', system-ui, sans-serif">Stop AI-driven pricing of essential food</text>
-    <text x="80" y="370" font-size="40" font-weight="500" fill="#0f172a" font-family="'Inter', system-ui, sans-serif">in UK supermarkets.</text>
-    <text x="80" y="540" font-size="28" font-weight="500" fill="#64748b" font-family="'Inter', system-ui, sans-serif">fairfoodpricing.co.uk</text>
-    <text x="80" y="580" font-size="22" font-weight="400" fill="#64748b" font-family="'Inter', system-ui, sans-serif">A UK campaign — find your MP, send a letter, read the evidence.</text>
+    <text x="80" y="220" font-size="96" font-weight="700" fill="#0f172a" letter-spacing="-0.022em">Fair Food Pricing</text>
+    <text x="80" y="320" font-size="40" font-weight="600" fill="#0f172a" letter-spacing="-0.01em">Stop AI-driven pricing of essential food</text>
+    <text x="80" y="370" font-size="40" font-weight="600" fill="#0f172a" letter-spacing="-0.01em">in UK supermarkets.</text>
+    <text x="80" y="540" font-size="28" font-weight="600" fill="#64748b" letter-spacing="0.02em">fairfoodpricing.co.uk</text>
+    <text x="80" y="580" font-size="22" font-weight="500" fill="#64748b">A UK campaign — find your MP, send a letter, read the evidence.</text>
   </g>
 </svg>
