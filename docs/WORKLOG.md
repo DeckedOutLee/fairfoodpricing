@@ -4,6 +4,46 @@ Reverse-chronological. One entry per shipped change.
 
 ---
 
+## 18 May 2026 — V1 to the world
+
+The campaign is publicly live as **V1**. Everything below this line is the V1 build.
+
+- Site live at https://www.fairfoodpricing.co.uk/.
+- GitHub repo public at github.com/DeckedOutLee/fairfoodpricing (MIT code, CC BY 4.0 content).
+- Auto-deploys from `main` to Vercel.
+- Lighthouse 100/100/100/100 on mobile and desktop.
+- Six security headers live (CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy).
+- 44 unit tests + 38 Playwright/axe tests passing.
+
+Beyond this point, anything that breaks the live site is a regression, not a work-in-progress.
+
+---
+
+## 18 May 2026 — Wordmark + OG image: Montserrat
+
+Placeholder `Wordmark.astro` and the social-share `og-image.svg` were still set in Source Serif 4 — a leftover from before the site-wide Montserrat swap on 17 May. Both now render in Montserrat 700 with `-0.018em` tracking, matching the heading style declared in `src/styles/global.css`.
+
+- Widened the inline-variant viewBox from 260×36 to 300×40 (Montserrat 700 is wider than Source Serif 600 at the same point size).
+- Moved the amber accent rule to the **top** of the stacked variant — reads more like a campaign headline mark than a body underline.
+
+Commit: `4abac0a`.
+
+---
+
+## 18 May 2026 — Docs: brief, design language, worklog
+
+Added three reference documents in `docs/`:
+
+- `BRIEF.md` — what the campaign is, what the site does, what it doesn't do (no signup, no analytics, no cookies), the Bill in one paragraph, who runs it, shipped vs deferred scope.
+- `DESIGN.md` — voice, Montserrat typography spec, full colour token table, layout containers, component catalogue, anti-patterns, accessibility commitments verified at launch.
+- `WORKLOG.md` (this file) — reverse-chronological session history with commit SHAs, decisions table, deferred items.
+
+Outside `src/` and `public/` so they don't deploy to the site itself, but they're public on the GitHub repo for any future collaborator, journalist, or MP staffer.
+
+Commit: `05f1324`.
+
+---
+
 ## 18 May 2026 — Security headers; campaign shipped
 
 - Added `vercel.json` with the full set of standard security headers:

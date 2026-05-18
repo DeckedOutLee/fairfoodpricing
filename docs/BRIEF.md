@@ -4,7 +4,7 @@
 
 A UK voter-led campaign asking Parliament to legislate against AI-driven personalised and dynamic pricing of essential food in supermarkets. Not a charity, not a CIC, not a political party — Lee, one voter, with a website, a draft Bill, and 30 pages of primary-source evidence.
 
-Live at **https://www.fairfoodpricing.co.uk/** since 17 May 2026.
+**V1 live at https://www.fairfoodpricing.co.uk/** since 18 May 2026. (Built 17 May; hardened, audited, and shipped as public V1 the next morning.)
 
 ## What the site does
 
